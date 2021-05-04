@@ -13,8 +13,6 @@ class SkySphere extends THREE.Object3D {
         var mundoGeometry = new THREE.SphereBufferGeometry(40,32,32);
         //var mundoMaterial = new THREE.MeshNormalMaterial({map: material, side: THREE.BackSide});
 
-        
-
         var mundo = new THREE.Mesh(mundoGeometry,this.materialGround);
 
         this.add(mundo);

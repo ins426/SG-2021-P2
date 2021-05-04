@@ -79,7 +79,7 @@ class MyScene extends THREE.Scene {
     this.add (ambientLight);
     
     this.spotLight = new THREE.SpotLight( 0xffffff, this.guiControls.lightIntensity );
-    this.spotLight.position.set( 60, 60, 40 );
+    this.spotLight.position.set( 20, 30, 50 );
     this.add (this.spotLight);
   }
   
