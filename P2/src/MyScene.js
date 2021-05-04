@@ -8,11 +8,14 @@ import { TrackballControls } from '../libs/TrackballControls.js'
 // Clases de mi proyecto
 import { Cat } from './Cat.js'
 import { SkySphere } from './SkySphere.js'
+import { Suelo } from './Suelo.js'
 
 class MyScene extends THREE.Scene {
   constructor (myCanvas) {
     super();
     
+    this.iniciarKeyLogger();
+
     this.renderer = this.createRenderer(myCanvas);
     
     this.gui = this.createGUI ();
@@ -24,11 +27,14 @@ class MyScene extends THREE.Scene {
     this.axis = new THREE.AxesHelper (5);
     this.add (this.axis);
 
-    this.Cat = new Cat();
-    this.add(this.Cat);
+    this.cat = new Cat();
+    this.add(this.cat);
 
-    this.SkySphere = new SkySphere();
-    this.add(this.SkySphere);
+    this.skySphere = new SkySphere();
+    this.add(this.skySphere);
+
+    this.suelo = new Suelo;
+    this.add(this.suelo);
   }
   
   createCamera () {
@@ -102,6 +108,25 @@ class MyScene extends THREE.Scene {
   onWindowResize () {
     this.setCameraAspect (window.innerWidth / window.innerHeight);
     this.renderer.setSize (window.innerWidth, window.innerHeight);
+  }
+
+  iniciarKeyLogger(){
+    var that = this
+    document.addEventListener('keydown', function(event) {
+      that.cat.movimiento(event.key)
+
+      if (event.key == "ArrowUp")
+      console.log("Arriba")
+
+     if (event.key == "ArrowLeft")
+     console.log("izq")
+
+      if (event.key == "ArrowDown")
+      console.log("abajo")
+
+      if (event.key == "ArrowRight")
+      console.log("derecha")
+    });
   }
 
   update () {
