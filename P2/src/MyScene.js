@@ -15,6 +15,7 @@ class MyScene extends THREE.Scene {
     super();
     
     this.iniciarKeyLogger();
+    this.tiempo_anterior = Date.now();
 
     this.renderer = this.createRenderer(myCanvas);
     
@@ -40,7 +41,7 @@ class MyScene extends THREE.Scene {
   createCamera () {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-    this.camera.position.set (0, 0, 20);
+    this.camera.position.set (0, 0, 1);
 
     var look = new THREE.Vector3 (0,0,0);
     this.camera.lookAt(look);
@@ -137,6 +138,12 @@ class MyScene extends THREE.Scene {
     this.cameraControl.update();
     
     this.renderer.render (this, this.getCamera());
+
+    var tiempo_actual = Date.now()
+    var delta = (tiempo_actual - this.tiempo_anterior)/1000;
+    this.tiempo_anterior = tiempo_actual;
+    //this.skySphere.position.z += 5 * delta;
+    //this.suelo.position.z += 5 * delta;
 
     requestAnimationFrame(() => this.update())
   }

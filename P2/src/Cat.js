@@ -22,6 +22,7 @@ class Cat extends THREE.Object3D {
 
         this.scale.set(0.05, 0.05, 0.05);
         this.rotation.x = -Math.PI/2;
+        this.rotation.z = Math.PI;
     }
 
     movimiento(direccion){
