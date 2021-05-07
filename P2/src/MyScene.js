@@ -1,14 +1,15 @@
-
 // Clases de la biblioteca
 
 import * as THREE from '../libs/three.module.js'
 import { GUI } from '../libs/dat.gui.module.js'
 import { TrackballControls } from '../libs/TrackballControls.js'
+import * as TWEEN from '../libs/tween.esm.js'
 
 // Clases de mi proyecto
 import { Cat } from './Cat.js'
 import { SkySphere } from './SkySphere.js'
 import { Suelo } from './Suelo.js'
+import { Recorrido } from './Recorrido.js' 
 
 class MyScene extends THREE.Scene {
   constructor (myCanvas) {
@@ -29,6 +30,7 @@ class MyScene extends THREE.Scene {
     this.add (this.axis);
 
     this.cat = new Cat();
+    this.cat.position.set(0, 0, 70)
     this.add(this.cat);
 
     this.skySphere = new SkySphere();
@@ -36,12 +38,34 @@ class MyScene extends THREE.Scene {
 
     this.suelo = new Suelo;
     this.add(this.suelo);
+
+    this.recorrido = new Recorrido();
+    this.add(this.recorrido);
+
+    this.x_offset = 0;
+    this.y_offset = 0;
+
+    this.t_ini = {t: 0};
+    this.t_fin = {t: 1};
+
+    var that = this;
+    this.animacion = new TWEEN.Tween(this.t_ini).to(this.t_fin, 20000).repeat(Infinity).onUpdate(
+      function(){
+        var posicion = that.recorrido.getPointAt(that.t_ini.t);
+        var tangente = that.recorrido.getTangentAt(that.t_ini.t);
+        posicion.x += that.x_offset;
+        posicion.y += that.y_offset;
+        that.cat.position.copy(posicion);
+        posicion.add(tangente)
+        that.cat.lookAt(posicion)
+      }
+    ).start();
   }
   
   createCamera () {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-    this.camera.position.set (0, 0, 1);
+    this.camera.position.set (0, 0, 80);
 
     var look = new THREE.Vector3 (0,0,0);
     this.camera.lookAt(look);
@@ -80,7 +104,7 @@ class MyScene extends THREE.Scene {
     this.add (ambientLight);
     
     this.spotLight = new THREE.SpotLight( 0xffffff, this.guiControls.lightIntensity );
-    this.spotLight.position.set( 20, 30, 50 );
+    this.spotLight.position.set( 0, 200, 0 );
     this.add (this.spotLight);
   }
   
@@ -114,19 +138,21 @@ class MyScene extends THREE.Scene {
   iniciarKeyLogger(){
     var that = this
     document.addEventListener('keydown', function(event) {
-      that.cat.movimiento(event.key)
-
       if (event.key == "ArrowUp")
-      console.log("Arriba")
+        that.y_offset += 0.1
+      
 
      if (event.key == "ArrowLeft")
-     console.log("izq")
+        that.x_offset -= 0.1
+     
 
       if (event.key == "ArrowDown")
-      console.log("abajo")
+        that.y_offset -= 0.1
+      
 
       if (event.key == "ArrowRight")
-      console.log("derecha")
+        that.x_offset += 0.1
+      
     });
   }
 
@@ -145,6 +171,7 @@ class MyScene extends THREE.Scene {
     //this.skySphere.position.z += 5 * delta;
     //this.suelo.position.z += 5 * delta;
 
+    TWEEN.update();
     requestAnimationFrame(() => this.update())
   }
 }

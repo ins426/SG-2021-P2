@@ -15,8 +15,10 @@ class SkySphere extends THREE.Object3D {
         this.materialSea = new THREE.MeshPhongMaterial ({map: texture, bumpMap: bumps, side: THREE.BackSide});
 
         var mundoGeometry = new THREE.SphereBufferGeometry(100,32,32);
+        
 
         var mundo = new THREE.Mesh(mundoGeometry,this.materialSea);
+        mundo.rotation.set(Math.PI, -Math.PI/2, 0)
 
         this.add(mundo);
     }

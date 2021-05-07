@@ -16,13 +16,12 @@ class Cat extends THREE.Object3D {
                 objectloader.load ('../models/Cat/12221_Cat_v1_l3.obj',
                     function(object) {
                         var modelo = object;
+                        modelo.rotateX(-Math.PI/2);
                         that.add (modelo);
                     }, null, null);
         })
 
         this.scale.set(0.05, 0.05, 0.05);
-        this.rotation.x = -Math.PI/2;
-        this.rotation.z = Math.PI;
     }
 
     movimiento(direccion){
