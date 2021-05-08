@@ -56,10 +56,13 @@ class MyScene extends THREE.Scene {
         posicion.x += that.x_offset;
         posicion.y += that.y_offset;
         that.cat.position.copy(posicion);
-        posicion.add(tangente)
-        that.cat.lookAt(posicion)
+        that.camera.position.copy(that.cat.position);
+        that.cameraControl.target = that.cat.position;
+        posicion.add(tangente);
+        that.cat.lookAt(posicion);
+        that.camera.lookAt(posicion);
       }
-    ).start();
+    ).start()
   }
   
   createCamera () {
@@ -122,7 +125,7 @@ class MyScene extends THREE.Scene {
   }
   
   getCamera () {
-    return this.camera;
+    return this.cat.camara;
   }
   
   setCameraAspect (ratio) {
