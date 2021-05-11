@@ -10,6 +10,7 @@ import { Cat } from './Cat.js'
 import { SkySphere } from './SkySphere.js'
 import { Suelo } from './Suelo.js'
 import { Recorrido } from './Recorrido.js' 
+import { Burbujas } from './Burbujas.js' 
 
 class MyScene extends THREE.Scene {
   constructor (myCanvas) {
@@ -63,6 +64,19 @@ class MyScene extends THREE.Scene {
         that.camera.lookAt(posicion);
       }
     ).start()
+
+    this.posini_burb = {x:0,y:0}
+    this.posfin_burb = {x:100,y:1.5}
+
+    this.animacion_burbujas = new TWEEN.Tween(this.posini_burb).to(this.posfin_burb, 10000).repeat(Infinity).onUpdate(
+      function(){
+        that.burbujas.position.y = that.posini_burb.y;
+        that.burbujas.position.x = that.posini_burb.x;
+      }
+    ).yoyo(true).start();
+
+    this.burbujas = new Burbujas;
+      this.add(this.burbujas);
   }
   
   createCamera () {
@@ -125,7 +139,7 @@ class MyScene extends THREE.Scene {
   }
   
   getCamera () {
-    return this.cat.camara;
+   return this.cat.camara;
   }
   
   setCameraAspect (ratio) {

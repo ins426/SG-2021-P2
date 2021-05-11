@@ -29,7 +29,7 @@ class Cat extends THREE.Object3D {
     crearCamara(){
         var camara = new THREE.Object3D();
         this.camara = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        
+
         this.camara.position.z = 10
         camara.rotateY(Math.PI)
         camara.add(this.camara);
