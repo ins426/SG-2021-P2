@@ -8,7 +8,7 @@ class Suelo extends THREE.Object3D {
     var h = 10;
     var d = 180;
 
-    var boxGeom = new THREE.BoxGeometry (w,h,d);
+    var boxGeom = new THREE.BoxBufferGeometry (w,h,d);
     boxGeom.translate(0, -1.5*(h/2), 0)
     
     var texture = new THREE.TextureLoader().load('../imgs/sand2.jpg');

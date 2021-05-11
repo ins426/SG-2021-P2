@@ -10,7 +10,8 @@ import { Cat } from './Cat.js'
 import { SkySphere } from './SkySphere.js'
 import { Suelo } from './Suelo.js'
 import { Recorrido } from './Recorrido.js' 
-import { Burbujas } from './Burbujas.js' 
+import { Burbujas } from './Burbujas.js'
+import { Anillo } from './Anillo.js'
 
 class MyScene extends THREE.Scene {
   constructor (myCanvas) {
@@ -50,7 +51,7 @@ class MyScene extends THREE.Scene {
     this.t_fin = {t: 1};
 
     var that = this;
-    this.animacion = new TWEEN.Tween(this.t_ini).to(this.t_fin, 20000).repeat(Infinity).onUpdate(
+    this.animacion = new TWEEN.Tween(this.t_ini).to(this.t_fin, 200000).repeat(Infinity).onUpdate(
       function(){
         var posicion = that.recorrido.getPointAt(that.t_ini.t);
         var tangente = that.recorrido.getTangentAt(that.t_ini.t);
@@ -76,7 +77,7 @@ class MyScene extends THREE.Scene {
     ).yoyo(true).start();
 
     this.burbujas = new Burbujas;
-      this.add(this.burbujas);
+    this.add(this.burbujas);
   }
   
   createCamera () {
