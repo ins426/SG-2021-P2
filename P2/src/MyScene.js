@@ -10,40 +10,25 @@ import { Cat } from './Cat.js'
 import { SkySphere } from './SkySphere.js'
 import { Suelo } from './Suelo.js'
 import { Recorrido } from './Recorrido.js' 
-import { Burbujas } from './Burbujas.js'
+import { Burbuja } from './Burbuja.js'
+import { BurbujasGestor } from './BurbujasGestor.js'
 import { Anillo } from './Anillo.js'
 
 class MyScene extends THREE.Scene {
   constructor (myCanvas) {
     super();
     
-    this.iniciarKeyLogger();
     this.tiempo_anterior = Date.now();
 
+    this.iniciarKeyLogger();
     this.renderer = this.createRenderer(myCanvas);
-    
     this.gui = this.createGUI ();
-    
     this.createLights ();
-    
     this.createCamera ();
-    
-    this.axis = new THREE.AxesHelper (5);
-    this.add (this.axis);
 
-    this.cat = new Cat();
-    this.cat.position.set(0, 0, 70)
-    this.add(this.cat);
+    this.addElementosEscena();
 
-    this.skySphere = new SkySphere();
-    this.add(this.skySphere);
-
-    this.suelo = new Suelo;
-    this.add(this.suelo);
-
-    this.recorrido = new Recorrido();
-    this.add(this.recorrido);
-
+    //Animación gato/seguimiento cámara
     this.x_offset = 0;
     this.y_offset = 0;
 
@@ -66,23 +51,70 @@ class MyScene extends THREE.Scene {
       }
     ).start()
 
-    this.posini_burb = {x:0,y:0}
-    this.posfin_burb = {x:100,y:1.5}
+    //Burbujas y animacion
+    this.burbujas_gestor = new BurbujasGestor();
 
-    this.animacion_burbujas = new TWEEN.Tween(this.posini_burb).to(this.posfin_burb, 10000).repeat(Infinity).onUpdate(
+    this.posini_burb = {x:0, y:0, o:0}
+    this.posfin_burb = {x:1.5, y:20, o:0.65}
+
+    var n_burbujas = 600;
+    this.burbujas = [];
+    for(var i = 0; i < n_burbujas;++i){
+      this.burbujas.push(this.burbujas_gestor.getBurbuja());
+    }
+
+    this.burbujas.forEach(function(item){
+      that.add(item);
+    })
+
+    this.animacion_burbujas = new TWEEN.Tween(this.posini_burb).to(this.posfin_burb, 4000).onUpdate(
       function(){
-        that.burbujas.position.y = that.posini_burb.y;
-        that.burbujas.position.x = that.posini_burb.x;
-      }
-    ).yoyo(true).start();
+        
 
-    this.burbujas = new Burbujas;
-    this.add(this.burbujas);
+        that.burbujas.forEach(function(item){
+          item.modificarOpacidad(that.posini_burb.o);
+          item.position.x = that.posini_burb.x;
+          item.position.y = that.posini_burb.y;
+        })
+  
+      }
+    ).start().repeat(Infinity)/*.onComplete(function(){
+      for(var i = 0; i < that.burbujas.length;++i){
+        that.burbujas_gestor.recibirBurbuja(that.burbujas.pop());
+      }
+
+      var n_burbujas = 600;
+      for(var i = 0; i < n_burbujas;++i){
+        that.burbujas.push(that.burbujas_gestor.getBurbuja());
+      }
+    })*/;
+
+  }
+
+  addElementosEscena(){
+    this.axis = new THREE.AxesHelper (5);
+    this.add (this.axis);
+
+    //Gato
+    this.cat = new Cat();
+    this.cat.position.set(0, 0, 70)
+    this.add(this.cat);
+
+    //Cielo
+    this.skySphere = new SkySphere();
+    this.add(this.skySphere);
+
+    //Suelo
+    this.suelo = new Suelo;
+    this.add(this.suelo);
+
+    //Recorrido
+    this.recorrido = new Recorrido();
+    this.add(this.recorrido);
   }
   
   createCamera () {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-
     this.camera.position.set (0, 0, 80);
 
     var look = new THREE.Vector3 (0,0,0);
@@ -99,9 +131,7 @@ class MyScene extends THREE.Scene {
   }
   
   createGUI () {
-    
     var gui = new GUI();
-    
     this.guiControls = new function() {
       
       this.lightIntensity = 0.5;
@@ -109,9 +139,7 @@ class MyScene extends THREE.Scene {
     }
 
     var folder = gui.addFolder ('Luz y Ejes');
-    
     folder.add (this.guiControls, 'lightIntensity', 0, 1, 0.1).name('Intensidad de la Luz : ');
-    
     folder.add (this.guiControls, 'axisOnOff').name ('Mostrar ejes : ');
     
     return gui;
@@ -127,13 +155,9 @@ class MyScene extends THREE.Scene {
   }
   
   createRenderer (myCanvas) {
-
     var renderer = new THREE.WebGLRenderer();
-    
     renderer.setClearColor(new THREE.Color(0xEEEEEE), 1.0);
-    
     renderer.setSize(window.innerWidth, window.innerHeight);
-    
     $(myCanvas).append(renderer.domElement);
     
     return renderer;  
@@ -144,8 +168,8 @@ class MyScene extends THREE.Scene {
   }
   
   setCameraAspect (ratio) {
-    this.camera.aspect = ratio;
-    this.camera.updateProjectionMatrix();
+    this.getCamera().aspect = ratio;
+    this.getCamera().updateProjectionMatrix();
   }
   
   onWindowResize () {

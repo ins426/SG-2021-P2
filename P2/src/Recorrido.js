@@ -16,7 +16,6 @@ class Recorrido extends THREE.Object3D {
             let y = Math.floor(Math.random() * (30-(10)+1)+10);
             let z = Math.floor(Math.random() * (60-(-60)+1)-60);
             let vector = new THREE.Vector3(x,y,z);
-            console.log(vector);
             this.recorrido.push(vector);
         }
 
