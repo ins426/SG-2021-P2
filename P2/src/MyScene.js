@@ -54,10 +54,18 @@ class MyScene extends THREE.Scene {
     //Burbujas y animacion
     this.burbujas_gestor = new BurbujasGestor();
 
-    this.posini_burb = {x:0, y:0, o:0}
-    this.posfin_burb = {x:1.5, y:20, o:0.65}
+    this.posini_burb = {x:0, y:0}
+    this.posfin_burb = {x:1.5, y:20}
 
-    var n_burbujas = 600;
+    this.opacidad_ini = {o: 0};
+    this.opacidad_fin = {o: 0.6};
+
+    this.animacion_opacidad = 
+      new TWEEN.Tween(this.opacidad_ini).to(this.opacidad_fin, 2000)
+      .repeat(Infinity).yoyo(true).easing(TWEEN.Easing.Quadratic.InOut).start()
+
+
+    var n_burbujas = 400;
     this.burbujas = [];
     for(var i = 0; i < n_burbujas;++i){
       this.burbujas.push(this.burbujas_gestor.getBurbuja());
@@ -72,7 +80,7 @@ class MyScene extends THREE.Scene {
         
 
         that.burbujas.forEach(function(item){
-          item.modificarOpacidad(that.posini_burb.o);
+          item.modificarOpacidad(that.opacidad_ini.o);
           item.position.x = that.posini_burb.x;
           item.position.y = that.posini_burb.y;
         })
