@@ -93,7 +93,6 @@ class MyScene extends THREE.Scene {
   
       }
     ).start().repeat(Infinity)
-
   }
 
   addElementosEscena(){
@@ -187,6 +186,8 @@ class MyScene extends THREE.Scene {
     document.addEventListener('keydown', function(event) {
       if (event.key == "ArrowUp")
         that.y_offset += 0.1
+        //that.test.burbuja.position.y += 2
+        
       
 
      if (event.key == "ArrowLeft")
@@ -195,6 +196,8 @@ class MyScene extends THREE.Scene {
 
       if (event.key == "ArrowDown")
         that.y_offset -= 0.1
+        //that.test.burbuja.position.y -= 2
+        
       
 
       if (event.key == "ArrowRight")
@@ -217,6 +220,13 @@ class MyScene extends THREE.Scene {
     this.tiempo_anterior = tiempo_actual;
     //this.skySphere.position.z += 5 * delta;
     //this.suelo.position.z += 5 * delta;
+
+    /*if (this.test.getPosicion().distanceTo(this.skySphere.position) >= 100){
+      console.log("colision")
+    }*/
+
+    //console.log(this.test.getPosicion().distanceTo(this.skySphere.position));
+    //console.log(this.test.getPosicion())
 
     TWEEN.update();
     requestAnimationFrame(() => this.update())
