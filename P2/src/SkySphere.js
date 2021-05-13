@@ -9,7 +9,7 @@ class SkySphere extends THREE.Object3D {
         // this.cargarTextura();
         // var texture = new THREE.TextureLoader().load('../imgs/mar.jpg');
         // this.materialGround = new THREE.MeshPhongMaterial ({map: texture, side: THREE.BackSide});
-        var texture = new THREE.TextureLoader().load('../imgs/mar3.jpg');
+        var texture = new THREE.TextureLoader().load('../imgs/mar5.jpg');
         var bumps = new THREE.TextureLoader().load('../imgs/marBump.png');
 
         this.materialSea = new THREE.MeshPhongMaterial ({map: texture, bumpMap: bumps, side: THREE.BackSide});

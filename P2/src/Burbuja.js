@@ -9,9 +9,9 @@ class Burbuja extends THREE.Object3D {
             new THREE.SphereBufferGeometry(0.1,32,32),
             new THREE.MeshPhongMaterial({transparent: true,opacity:0.4})
         )
-        this.burbuja.position.set(Math.floor(Math.random()*(100-(-100)+1)-100),
-                            Math.floor(Math.random()*(100-5+1)-5),
-                            Math.floor(Math.random()*(100-(-100)+1)-100));
+        this.burbuja.position.set(Math.floor(Math.random()*(80-(-80)+1)-80),
+                            Math.floor(Math.random()*(80-5+1)-5),
+                            Math.floor(Math.random()*(80-(-80)+1)-80));
 
         this.burbuja.scale.set(radio, radio, radio);
         this.add(this.burbuja)

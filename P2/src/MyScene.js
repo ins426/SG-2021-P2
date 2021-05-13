@@ -49,13 +49,13 @@ class MyScene extends THREE.Scene {
         that.cat.lookAt(posicion);
         that.camera.lookAt(posicion);
       }
-    ).start()
+    )//.start();
 
     //Burbujas y animacion
     this.burbujas_gestor = new BurbujasGestor();
 
-    this.posini_burb = {x:0, y:-10}
-    this.posfin_burb = {x:1.5, y:50}
+    this.posini_burb = {y:-10}
+    this.posfin_burb = {y:30}
 
     this.opacidad_ini = {o: 0};
     this.opacidad_fin = {o: 0.6};
@@ -64,8 +64,13 @@ class MyScene extends THREE.Scene {
       new TWEEN.Tween(this.opacidad_ini).to(this.opacidad_fin, 3000)
       .repeat(Infinity).yoyo(true).easing(TWEEN.Easing.Quadratic.InOut).start()
 
+  
+    this.poszigzag_ini = {x:0}
+    this.poszigzag_fin = {x:2}
+    this.animacion_zigzag = new TWEEN.Tween(this.poszigzag_ini).to(this.poszigzag_fin, 1500)
+    .repeat(Infinity).yoyo(true).easing(TWEEN.Easing.Quadratic.InOut).start().easing(TWEEN.Easing.Quadratic.InOut);
 
-    var n_burbujas = 600;
+    var n_burbujas = 400;
     this.burbujas = [];
     for(var i = 0; i < n_burbujas;++i){
       this.burbujas.push(this.burbujas_gestor.getBurbuja());
@@ -75,27 +80,19 @@ class MyScene extends THREE.Scene {
       that.add(item);
     })
 
+    var that = this
     this.animacion_burbujas = new TWEEN.Tween(this.posini_burb).to(this.posfin_burb, 6000).onUpdate(
       function(){
         
 
         that.burbujas.forEach(function(item){
           item.modificarOpacidad(that.opacidad_ini.o);
-          item.position.x = that.posini_burb.x;
+          item.position.x = that.poszigzag_ini.x;
           item.position.y = that.posini_burb.y;
         })
   
       }
-    ).start().repeat(Infinity)/*.onComplete(function(){
-      for(var i = 0; i < that.burbujas.length;++i){
-        that.burbujas_gestor.recibirBurbuja(that.burbujas.pop());
-      }
-
-      var n_burbujas = 600;
-      for(var i = 0; i < n_burbujas;++i){
-        that.burbujas.push(that.burbujas_gestor.getBurbuja());
-      }
-    })*/;
+    ).start().repeat(Infinity)
 
   }
 
@@ -163,7 +160,7 @@ class MyScene extends THREE.Scene {
   }
   
   createRenderer (myCanvas) {
-    var renderer = new THREE.WebGLRenderer();
+    var renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setClearColor(new THREE.Color(0xEEEEEE), 1.0);
     renderer.setSize(window.innerWidth, window.innerHeight);
     $(myCanvas).append(renderer.domElement);
@@ -172,7 +169,7 @@ class MyScene extends THREE.Scene {
   }
   
   getCamera () {
-   return this.cat.camara;
+   return this.camera;
   }
   
   setCameraAspect (ratio) {
