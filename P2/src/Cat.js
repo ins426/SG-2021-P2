@@ -24,6 +24,10 @@ class Cat extends THREE.Object3D {
 
         this.camaraGatuna = this.crearCamara();
         this.add(this.camaraGatuna);
+
+        let esfera_colisiones = new THREE.SphereBufferGeometry(0.5);
+        this.esfera_colisiones_mesh = new THREE.Mesh(esfera_colisiones, new THREE.MeshNormalMaterial());
+        this.add(this.esfera_colisiones_mesh);
     }
 
     crearCamara(){

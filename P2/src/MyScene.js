@@ -17,8 +17,12 @@ import { Anillo } from './Anillo.js'
 class MyScene extends THREE.Scene {
   constructor (myCanvas) {
     super();
-    
-    this.tiempo_anterior = Date.now();
+
+
+    //LLEVAR A NUEVA CLASE JUGADOR
+    this.ultima_colision = -1;
+
+
 
     this.iniciarKeyLogger();
     this.renderer = this.createRenderer(myCanvas);
@@ -49,7 +53,7 @@ class MyScene extends THREE.Scene {
         that.cat.lookAt(posicion);
         that.camera.lookAt(posicion);
       }
-    )//.start();
+    ).start();
 
     //Burbujas y animacion
     this.burbujas_gestor = new BurbujasGestor();
@@ -84,7 +88,6 @@ class MyScene extends THREE.Scene {
     this.animacion_burbujas = new TWEEN.Tween(this.posini_burb).to(this.posfin_burb, 6000).onUpdate(
       function(){
         
-
         that.burbujas.forEach(function(item){
           item.modificarOpacidad(that.opacidad_ini.o);
           item.position.x = that.poszigzag_ini.x;
@@ -168,7 +171,7 @@ class MyScene extends THREE.Scene {
   }
   
   getCamera () {
-   return this.camera;
+   return this.cat.camara;
   }
   
   setCameraAspect (ratio) {
@@ -186,20 +189,14 @@ class MyScene extends THREE.Scene {
     document.addEventListener('keydown', function(event) {
       if (event.key == "ArrowUp")
         that.y_offset += 0.1
-        //that.test.burbuja.position.y += 2
         
-      
-
      if (event.key == "ArrowLeft")
         that.x_offset -= 0.1
      
 
       if (event.key == "ArrowDown")
         that.y_offset -= 0.1
-        //that.test.burbuja.position.y -= 2
         
-      
-
       if (event.key == "ArrowRight")
         that.x_offset += 0.1
       
@@ -215,18 +212,15 @@ class MyScene extends THREE.Scene {
     
     this.renderer.render (this, this.getCamera());
 
-    var tiempo_actual = Date.now()
-    var delta = (tiempo_actual - this.tiempo_anterior)/1000;
-    this.tiempo_anterior = tiempo_actual;
-    //this.skySphere.position.z += 5 * delta;
-    //this.suelo.position.z += 5 * delta;
-
-    /*if (this.test.getPosicion().distanceTo(this.skySphere.position) >= 100){
-      console.log("colision")
-    }*/
-
-    //console.log(this.test.getPosicion().distanceTo(this.skySphere.position));
-    //console.log(this.test.getPosicion())
+    var anillo_colisionado;
+    if ((anillo_colisionado = this.recorrido.comprobarColisiones(this.cat.position, 0.5)) != -1){
+      if (anillo_colisionado != this.ultima_colision){
+        let puntuacion = parseInt(document.getElementById("puntuacion").innerHTML, 10);
+        document.getElementById("puntuacion").innerHTML = puntuacion + 1;
+        this.ultima_colision = anillo_colisionado;
+      }
+    }
+    
 
     TWEEN.update();
     requestAnimationFrame(() => this.update())

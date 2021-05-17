@@ -47,6 +47,8 @@ class Recorrido extends THREE.Object3D {
     }
 
     generarAnillos(){
+        this.anillos = [];
+
         for(var i = 0; i < 20; ++i){
             let t = Math.random();
             let posicion = this.curva.getPointAt(t);
@@ -60,11 +62,23 @@ class Recorrido extends THREE.Object3D {
             posicion.add(pos_offset);
             let anillo = new Anillo();
             anillo.position.copy(posicion);
+            this.anillos.push(anillo);
 
 
             this.add(anillo);
         }
+    }
 
+    comprobarColisiones(posicionB, radioB){
+        var res = -1;
+        
+        var i;
+        for (i = 0; i < this.anillos.length && res == -1; ++i){
+            if(this.anillos[i].position.distanceTo(posicionB) <= (radioB + this.anillos[i].radio))
+                res = i;
+        }
+
+        return res;
     }
 }
 
