@@ -1,0 +1,44 @@
+body{
+    margin: 0;
+    overflow: hidden; 
+}
+/*---------- MENÚ--------------- */
+#menu{
+    position: absolute;
+    text-align: center;
+    left: 0;
+    right: 0;
+    bottom: 20%;
+    margin: auto;
+}
+
+.button{
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
+    color:#fff;
+    background-image:  linear-gradient(to right, #1A2980 0%, #26D0CE  51%, #1A2980  100%);
+    border-radius: 15px;
+    box-shadow: 0 0 20px #eee;
+    transition: 0.5s;
+    background-size: 200% auto;
+}
+
+.button:hover{
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+/*----------PUNTUACIÓN--------------- */
+#puntuacion-contenedor{
+    display: none;
+}
+
+    
+
+
+
+
+
+

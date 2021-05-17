@@ -18,7 +18,7 @@ class MyScene extends THREE.Scene {
   constructor (myCanvas) {
     super();
 
-
+    this.startJuego = false;
     //LLEVAR A NUEVA CLASE JUGADOR
     this.ultima_colision = -1;
 
@@ -29,6 +29,7 @@ class MyScene extends THREE.Scene {
     this.gui = this.createGUI ();
     this.createLights ();
     this.createCamera ();
+    this.crearCamaraMenu()
 
     this.addElementosEscena();
 
@@ -53,7 +54,7 @@ class MyScene extends THREE.Scene {
         that.cat.lookAt(posicion);
         that.camera.lookAt(posicion);
       }
-    ).start();
+    )
 
     //Burbujas y animacion
     this.burbujas_gestor = new BurbujasGestor();
@@ -119,6 +120,22 @@ class MyScene extends THREE.Scene {
     this.recorrido = new Recorrido();
     this.add(this.recorrido);
   }
+
+  crearCamaraMenu(){
+    this.camaraObject = new THREE.Object3D();
+    this.camaraJuego = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    var look = new THREE.Vector3 (-10,-3,-10);
+    this.camaraJuego.lookAt(look);
+    this.cameraControl.target = look;
+    this.camaraJuego.position.z = 30
+    this.camaraJuego.position.x = 10
+    this.camaraJuego.position.y = 40
+    this.camaraObject.add(this.camaraJuego);
+
+    this.add(this.camaraObject);
+
+  }
   
   createCamera () {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -171,7 +188,7 @@ class MyScene extends THREE.Scene {
   }
   
   getCamera () {
-   return this.cat.camara;
+   return this.camaraJuego;
   }
   
   setCameraAspect (ratio) {
@@ -212,24 +229,39 @@ class MyScene extends THREE.Scene {
     
     this.renderer.render (this, this.getCamera());
 
-    var anillo_colisionado;
-    if ((anillo_colisionado = this.recorrido.comprobarColisiones(this.cat.position, 0.5)) != -1){
-      if (anillo_colisionado != this.ultima_colision){
-        let puntuacion = parseInt(document.getElementById("puntuacion").innerHTML, 10);
-        document.getElementById("puntuacion").innerHTML = puntuacion + 1;
-        this.ultima_colision = anillo_colisionado;
+    if(this.startJuego){
+      var anillo_colisionado;
+      if ((anillo_colisionado = this.recorrido.comprobarColisiones(this.cat.position, 0.5)) != -1){
+        if (anillo_colisionado != this.ultima_colision){
+          let puntuacion = parseInt(document.getElementById("puntuacion").innerHTML, 10);
+          document.getElementById("puntuacion").innerHTML = puntuacion + 1;
+          this.ultima_colision = anillo_colisionado;
+        }
       }
-    }
+      this.animacion.start();
+      this.camaraJuego = this.cat.camara;
     
-
+    }else{
+      this.camaraObject.rotation.y += 0.001;
+    }
     TWEEN.update();
+
     requestAnimationFrame(() => this.update())
+  }
+
+  empezarJuego(){
+    document.getElementById("boton-empezar").style.display = "none";
+    document.getElementById("puntuacion-contenedor").style.display = "block"; //ESTO DE BLOCK ALOME CAMBIARLO
+    this.startJuego = true;
   }
 }
 
 $(function () {
-  
   var scene = new MyScene("#WebGL-output");
+
+  document.getElementById("boton-empezar").onclick = function Start (){
+    scene.empezarJuego();
+  }
 
   window.addEventListener ("resize", () => scene.onWindowResize());
   

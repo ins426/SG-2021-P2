@@ -5,20 +5,18 @@
 <head>
     <title>P2</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../css/estilo.css" />
     <script type="text/javascript" src="../libs/jquery.js"></script>
     <script type="module" src="MyScene.js"></script>    
-    
-    <style>
-        body{
-            margin: 0;
-            overflow: hidden; 
-        }
-    </style>
 </head>
 <body>
+    <!------------------MENÚ--------------------->
+    <div id='menu'>
+        <button id="boton-empezar" class="button">START GAME</button>
+    </div>
 
 <!-- Div which will hold the Output -->
-<div>Puntuación: <div id="puntuacion">0</div></div>
+<div id="puntuacion-contenedor">Puntuación: <div id="puntuacion">0</div></div>
 <div id="WebGL-output">
 </div>
 </body>
