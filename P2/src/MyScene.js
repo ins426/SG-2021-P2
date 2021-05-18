@@ -18,7 +18,7 @@ class MyScene extends THREE.Scene {
   constructor (myCanvas) {
     super();
 
-    this.startJuego = false;
+    this.juegoIniciado = false;
     //LLEVAR A NUEVA CLASE JUGADOR
     this.ultima_colision = -1;
 
@@ -249,7 +249,7 @@ class MyScene extends THREE.Scene {
     
     this.renderer.render (this, this.getCamera());
 
-    if(this.startJuego){
+    if(this.juegoIniciado){
       var anillo_colisionado;
       if ((anillo_colisionado = this.recorrido.comprobarColisiones(this.cat.position, 0.5)) != -1){
         if (anillo_colisionado != this.ultima_colision){
@@ -281,21 +281,11 @@ class MyScene extends THREE.Scene {
     requestAnimationFrame(() => this.update())
   }
 
-  empezarJuego(){
+  /*empezarJuego(){
     document.getElementById("boton-empezar").style.display = "none";
     document.getElementById("puntuacion-contenedor").style.display = "block"; 
     this.startJuego = true;
-  }
+  }*/
 }
 
-$(function () {
-  var scene = new MyScene("#WebGL-output");
-
-  document.getElementById("boton-empezar").onclick = function Start (){
-    scene.empezarJuego();
-  }
-
-  window.addEventListener ("resize", () => scene.onWindowResize());
-  
-  scene.update();
-});
+export { MyScene };
