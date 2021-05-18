@@ -10,21 +10,20 @@ import { Cat } from './Cat.js'
 import { SkySphere } from './SkySphere.js'
 import { Suelo } from './Suelo.js'
 import { Recorrido } from './Recorrido.js' 
-import { Burbuja } from './Burbuja.js'
 import { BurbujasGestor } from './BurbujasGestor.js'
-import { Anillo } from './Anillo.js'
 
 class MyScene extends THREE.Scene {
   constructor (myCanvas) {
     super();
 
-    this.juegoIniciado = false;
+    
     //LLEVAR A NUEVA CLASE JUGADOR
     this.ultima_colision = -1;
 
 
+    this.juegoIniciado = false;
+    this.keysStatus = {up: false, down: false, left: false, righ: false};
 
-    this.iniciarKeyLogger();
     this.renderer = this.createRenderer(myCanvas);
     this.gui = this.createGUI ();
     this.createLights ();
@@ -32,8 +31,11 @@ class MyScene extends THREE.Scene {
     this.crearCamaraMenu()
 
     this.addElementosEscena();
+    this.addAnimaciones();
+  }
 
-    //Animación gato/seguimiento cámara
+  addAnimaciones(){
+    //  ******* Animación gato/seguimiento cámara ************
     this.x_offset = 0;
     this.y_offset = 0;
 
@@ -55,7 +57,7 @@ class MyScene extends THREE.Scene {
       }
     )
 
-    //Burbujas y animacion
+    //  ******* Animación burbujas(zigzag, ascenso y opacidad) ************
     this.burbujas_gestor = new BurbujasGestor();
 
     this.posini_burb = {y:-10}
@@ -68,7 +70,7 @@ class MyScene extends THREE.Scene {
       new TWEEN.Tween(this.opacidad_ini).to(this.opacidad_fin, 3000)
       .repeat(Infinity).yoyo(true).easing(TWEEN.Easing.Quadratic.InOut).start()
 
-  
+
     this.poszigzag_ini = {x:0}
     this.poszigzag_fin = {x:2}
     this.animacion_zigzag = new TWEEN.Tween(this.poszigzag_ini).to(this.poszigzag_fin, 1500)
@@ -84,7 +86,7 @@ class MyScene extends THREE.Scene {
       that.add(item);
     })
 
-    var that = this
+
     this.animacion_burbujas = new TWEEN.Tween(this.posini_burb).to(this.posfin_burb, 6000).onUpdate(
       function(){
         
@@ -93,9 +95,9 @@ class MyScene extends THREE.Scene {
           item.position.x = that.poszigzag_ini.x;
           item.position.y = that.posini_burb.y;
         })
-  
+
       }
-    ).start().repeat(Infinity)
+    ).start().repeat(Infinity);
   }
 
   addElementosEscena(){
@@ -133,7 +135,6 @@ class MyScene extends THREE.Scene {
     this.camaraObject.add(this.camaraJuego);
 
     this.add(this.camaraObject);
-
   }
   
   createCamera () {
@@ -200,53 +201,10 @@ class MyScene extends THREE.Scene {
     this.renderer.setSize (window.innerWidth, window.innerHeight);
   }
 
-  iniciarKeyLogger(){
-    var that = this
-
-    this.rigthPressed = false;
-    this.leftPressed = false;
-    this.upPressed = false;
-    this.downPressed = false;
-
-    document.addEventListener('keydown', function(event) {
-      if (event.key == "ArrowUp")
-        that.upPressed = true
-        
-     if (event.key == "ArrowLeft")
-      that.leftPressed = true
-      
-      if (event.key == "ArrowDown")
-        that.downPressed = true
-        
-      if (event.key == "ArrowRight")
-        that.rigthPressed = true
-      
-    });
-
-    document.addEventListener('keyup', function(event) {
-      if (event.key == "ArrowUp")
-        that.upPressed = false
-        
-     if (event.key == "ArrowLeft")
-        that.leftPressed = false
-     
-
-      if (event.key == "ArrowDown")
-        that.downPressed = false
-        
-      if (event.key == "ArrowRight")
-        that.rigthPressed = false
-      
-    });
-  }
-
   update () {
     this.spotLight.intensity = this.guiControls.lightIntensity;
-    
     this.axis.visible = this.guiControls.axisOnOff;
-    
     this.cameraControl.update();
-    
     this.renderer.render (this, this.getCamera());
 
     if(this.juegoIniciado){
@@ -261,16 +219,16 @@ class MyScene extends THREE.Scene {
       this.animacion.start();
       this.camaraJuego = this.cat.camara;
 
-      if(this.rigthPressed)
+      if(this.keysStatus['right'])
         this.x_offset += 0.5
       
-      if(this.leftPressed)
+      if(this.keysStatus['left'])
         this.x_offset -= 0.5
       
-      if(this.downPressed)
+      if(this.keysStatus['down'])
         this.y_offset -= 0.1
       
-      if(this.upPressed)
+      if(this.keysStatus['up'])
         this.y_offset += 0.1
     
     }else{
@@ -281,11 +239,21 @@ class MyScene extends THREE.Scene {
     requestAnimationFrame(() => this.update())
   }
 
-  /*empezarJuego(){
-    document.getElementById("boton-empezar").style.display = "none";
-    document.getElementById("puntuacion-contenedor").style.display = "block"; 
-    this.startJuego = true;
-  }*/
+  setUpStatus(status){
+    this.keysStatus['up'] = status;
+  }
+
+  setDownStatus(status){
+    this.keysStatus['down'] = status;
+  }
+
+  setLeftStatus(status){
+    this.keysStatus['left'] = status;
+  }
+
+  setRightStatus(status){
+    this.keysStatus['right'] = status;
+  }
 }
 
 export { MyScene };
