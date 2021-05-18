@@ -74,7 +74,7 @@ class Recorrido extends THREE.Object3D {
         
         var i;
         for (i = 0; i < this.anillos.length && res == -1; ++i){
-            if(this.anillos[i].position.distanceTo(posicionB) <= (radioB + this.anillos[i].radio))
+            if(this.anillos[i].position.distanceTo(posicionB) <= (radioB + (this.anillos[i].radio)/2))
                 res = i;
         }
 
