@@ -15,10 +15,10 @@ class Cat extends THREE.Object3D {
                 objectloader.setMaterials(materials);
                 objectloader.load ('../models/Cat/12221_Cat_v1_l3.obj',
                     function(object) {
-                        var modelo = object;
-                        modelo.scale.set(0.05, 0.05, 0.05);
-                        modelo.rotateX(-Math.PI/2);
-                        that.add (modelo);
+                        that.modelo = object;
+                        that.modelo.scale.set(0.05, 0.05, 0.05);
+                        that.modelo.rotateX(-Math.PI/2);
+                        that.add (that.modelo);
                     }, null, null);
         })
 
@@ -41,19 +41,12 @@ class Cat extends THREE.Object3D {
         return camara;
     }
 
-    movimiento(direccion){
-        if (direccion == "ArrowUp")
-            this.position.y += 0.1
-    
-        if (direccion == "ArrowLeft")
-            this.position.x -= 0.1
-    
-        if (direccion == "ArrowDown")
-            this.position.y -= 0.1
-    
-        if (direccion == "ArrowRight")
-            this.position.x += 0.1
-      }
+    movimiento(x,y){
+        this.esfera_colisiones_mesh.position.x = -x
+        this.esfera_colisiones_mesh.position.y = y
+        this.modelo.position.x = -x
+        this.modelo.position.y = y
+    }
 }
 
 export { Cat }

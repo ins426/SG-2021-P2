@@ -41,12 +41,11 @@ class MyScene extends THREE.Scene {
     this.t_fin = {t: 1};
 
     var that = this;
-    this.animacion = new TWEEN.Tween(this.t_ini).to(this.t_fin, 200000).repeat(Infinity).onUpdate(
+    this.animacion = new TWEEN.Tween(this.t_ini).to(this.t_fin, 800000).repeat(Infinity).onUpdate(
       function(){
         var posicion = that.recorrido.getPointAt(that.t_ini.t);
         var tangente = that.recorrido.getTangentAt(that.t_ini.t);
-        posicion.x += that.x_offset;
-        posicion.y += that.y_offset;
+        that.cat.movimiento(that.x_offset,that.y_offset)
         that.cat.position.copy(posicion);
         that.camera.position.copy(that.cat.position);
         that.cameraControl.target = that.cat.position;
@@ -203,19 +202,40 @@ class MyScene extends THREE.Scene {
 
   iniciarKeyLogger(){
     var that = this
+
+    this.rigthPressed = false;
+    this.leftPressed = false;
+    this.upPressed = false;
+    this.downPressed = false;
+
     document.addEventListener('keydown', function(event) {
       if (event.key == "ArrowUp")
-        that.y_offset += 0.1
+        that.upPressed = true
         
      if (event.key == "ArrowLeft")
-        that.x_offset -= 0.1
+      that.leftPressed = true
+      
+      if (event.key == "ArrowDown")
+        that.downPressed = true
+        
+      if (event.key == "ArrowRight")
+        that.rigthPressed = true
+      
+    });
+
+    document.addEventListener('keyup', function(event) {
+      if (event.key == "ArrowUp")
+        that.upPressed = false
+        
+     if (event.key == "ArrowLeft")
+        that.leftPressed = false
      
 
       if (event.key == "ArrowDown")
-        that.y_offset -= 0.1
+        that.downPressed = false
         
       if (event.key == "ArrowRight")
-        that.x_offset += 0.1
+        that.rigthPressed = false
       
     });
   }
@@ -240,6 +260,18 @@ class MyScene extends THREE.Scene {
       }
       this.animacion.start();
       this.camaraJuego = this.cat.camara;
+
+      if(this.rigthPressed)
+        this.x_offset += 0.5
+      
+      if(this.leftPressed)
+        this.x_offset -= 0.5
+      
+      if(this.downPressed)
+        this.y_offset -= 0.1
+      
+      if(this.upPressed)
+        this.y_offset += 0.1
     
     }else{
       this.camaraObject.rotation.y += 0.001;
@@ -251,7 +283,7 @@ class MyScene extends THREE.Scene {
 
   empezarJuego(){
     document.getElementById("boton-empezar").style.display = "none";
-    document.getElementById("puntuacion-contenedor").style.display = "block"; //ESTO DE BLOCK ALOME CAMBIARLO
+    document.getElementById("puntuacion-contenedor").style.display = "block"; 
     this.startJuego = true;
   }
 }
