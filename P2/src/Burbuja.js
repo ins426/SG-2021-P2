@@ -1,14 +1,17 @@
 import * as THREE from "../libs/three.module.js"
 
 class Burbuja extends THREE.Object3D {
-    constructor(){
+    constructor(textureCube){
         super();
+
+        var material = new THREE.MeshBasicMaterial({color: 0xffffff, envMap: textureCube});
+        material.envMap.mapping = THREE.CubeRefractionMapping;
+        material.refractionRatio = 0.85;
 
         this.radio = Math.floor(Math.random()*(10-3+1)+3)
         this.burbuja = new THREE.Mesh(
-            new THREE.SphereBufferGeometry(0.1,32,32),
-            new THREE.MeshPhongMaterial({transparent: true,opacity:0.4})
-        )
+            new THREE.SphereBufferGeometry(0.1,32,32), material);
+
         this.burbuja.position.set(Math.floor(Math.random()*(80-(-80)+1)-80),
                             Math.floor(Math.random()*(80-5+1)-5),
                             Math.floor(Math.random()*(80-(-80)+1)-80));

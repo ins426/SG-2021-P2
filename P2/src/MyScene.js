@@ -58,7 +58,7 @@ class MyScene extends THREE.Scene {
     )
 
     //  ******* Animación burbujas(zigzag, ascenso y opacidad) ************
-    this.burbujas_gestor = new BurbujasGestor();
+    this.burbujas_gestor = new BurbujasGestor(this.texture);
 
     this.posini_burb = {y:-10}
     this.posfin_burb = {y:30}
@@ -110,12 +110,22 @@ class MyScene extends THREE.Scene {
     this.add(this.cat);
 
     //Cielo
-    this.skySphere = new SkySphere();
-    this.add(this.skySphere);
+    //this.skySphere = new SkySphere();
+    //this.add(this.skySphere);
 
     //Suelo
-    this.suelo = new Suelo;
-    this.add(this.suelo);
+    //this.suelo = new Suelo;
+    //this.add(this.suelo);
+    var path = "../imgs/underwater/";
+    var format = ".png";
+    var urls = [
+      path + 'px' + format, path + 'nx' + format,
+      path + 'py' + format, path + 'ny' + format,
+      path + 'pz' + format, path + 'nz' + format
+    ]
+
+    this.texture = new THREE.CubeTextureLoader().load(urls);
+    this.background = this.texture;
 
     //Recorrido
     this.recorrido = new Recorrido();

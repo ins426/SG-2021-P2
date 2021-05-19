@@ -2,8 +2,9 @@ import * as THREE from "../libs/three.module.js"
 import { Burbuja } from './Burbuja.js'
 
 class BurbujasGestor extends THREE.Object3D {
-    constructor(){
+    constructor(textureCube){
         super();
+        this.textureCube = textureCube;
         this.buffer = [];
     }
 
@@ -11,7 +12,7 @@ class BurbujasGestor extends THREE.Object3D {
         if(this.buffer.length){
             return this.buffer.pop();
         }else{
-            return new Burbuja();
+            return new Burbuja(this.textureCube);
         }
     }
 
