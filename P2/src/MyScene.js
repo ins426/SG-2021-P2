@@ -116,7 +116,7 @@ class MyScene extends THREE.Scene {
     //Suelo
     //this.suelo = new Suelo;
     //this.add(this.suelo);
-    var path = "../imgs/underwater/";
+    var path = "../imgs/cubemap/";
     var format = ".png";
     var urls = [
       path + 'px' + format, path + 'nx' + format,
