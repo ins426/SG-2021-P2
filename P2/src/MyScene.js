@@ -43,7 +43,7 @@ class MyScene extends THREE.Scene {
     this.t_fin = {t: 1};
 
     var that = this;
-    this.animacion = new TWEEN.Tween(this.t_ini).to(this.t_fin, 800000).repeat(Infinity).onUpdate(
+    this.animacion = new TWEEN.Tween(this.t_ini).to(this.t_fin, 200000).repeat(Infinity).onUpdate(
       function(){
         var posicion = that.recorrido.getPointAt(that.t_ini.t);
         var tangente = that.recorrido.getTangentAt(that.t_ini.t);
@@ -218,8 +218,11 @@ class MyScene extends THREE.Scene {
     this.renderer.render (this, this.getCamera());
 
     if(this.juegoIniciado){
+      var pos = this.cat.getPosicionLocal().clone();
+      this.cat.localToWorld(pos);
+    
       var anillo_colisionado;
-      if ((anillo_colisionado = this.recorrido.comprobarColisiones(this.cat.position, 0.5)) != -1){
+      if ((anillo_colisionado = this.recorrido.comprobarColisiones(pos, 0.5)) != -1){
         if (anillo_colisionado != this.ultima_colision){
           let puntuacion = parseInt(document.getElementById("puntuacion").innerHTML, 10);
           document.getElementById("puntuacion").innerHTML = puntuacion + 1;
@@ -230,10 +233,10 @@ class MyScene extends THREE.Scene {
       this.camaraJuego = this.cat.camara;
 
       if(this.keysStatus['right'])
-        this.x_offset += 0.5
+        this.x_offset += 0.1
       
       if(this.keysStatus['left'])
-        this.x_offset -= 0.5
+        this.x_offset -= 0.1
       
       if(this.keysStatus['down'])
         this.y_offset -= 0.1

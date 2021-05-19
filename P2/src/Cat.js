@@ -47,6 +47,10 @@ class Cat extends THREE.Object3D {
         this.modelo.position.x = -x
         this.modelo.position.y = y
     }
+
+    getPosicionLocal(){
+        return this.modelo.position;
+    }
 }
 
 export { Cat }
