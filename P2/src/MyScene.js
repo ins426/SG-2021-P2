@@ -11,6 +11,7 @@ import { SkySphere } from './SkySphere.js'
 import { Suelo } from './Suelo.js'
 import { Recorrido } from './Recorrido.js' 
 import { BurbujasGestor } from './BurbujasGestor.js'
+import { Meta } from './Meta.js'
 
 class MyScene extends THREE.Scene {
   constructor (myCanvas) {
@@ -130,6 +131,11 @@ class MyScene extends THREE.Scene {
     //Recorrido
     this.recorrido = new Recorrido();
     this.add(this.recorrido);
+
+    //Línea de meta
+    this.meta = new Meta();
+    this.meta.scale.set(5, 5,5);
+    this.add(this.meta);
   }
 
   crearCamaraMenu(){
