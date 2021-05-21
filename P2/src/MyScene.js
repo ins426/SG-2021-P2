@@ -1,5 +1,4 @@
 // Clases de la biblioteca
-
 import * as THREE from '../libs/three.module.js'
 import { GUI } from '../libs/dat.gui.module.js'
 import { TrackballControls } from '../libs/TrackballControls.js'
@@ -7,8 +6,6 @@ import * as TWEEN from '../libs/tween.esm.js'
 
 // Clases de mi proyecto
 import { Cat } from './Cat.js'
-import { SkySphere } from './SkySphere.js'
-import { Suelo } from './Suelo.js'
 import { Recorrido } from './Recorrido.js' 
 import { BurbujasGestor } from './BurbujasGestor.js'
 import { Meta } from './Meta.js'
@@ -23,13 +20,13 @@ class MyScene extends THREE.Scene {
 
 
     this.juegoIniciado = false;
-    this.keysStatus = {up: false, down: false, left: false, righ: false};
+    this.keysStatus = {up: false, down: false, left: false, right: false};
 
     this.renderer = this.createRenderer(myCanvas);
     this.gui = this.createGUI ();
     this.createLights ();
     this.createCamera ();
-    this.crearCamaraMenu()
+    this.crearCamaraMenu();
 
     this.addElementosEscena();
     this.addAnimaciones();
@@ -110,13 +107,7 @@ class MyScene extends THREE.Scene {
     this.cat.position.set(0, 0, 70)
     this.add(this.cat);
 
-    //Cielo
-    //this.skySphere = new SkySphere();
-    //this.add(this.skySphere);
-
-    //Suelo
-    //this.suelo = new Suelo;
-    //this.add(this.suelo);
+    //Mundo
     var path = "../imgs/cubemap/";
     var format = ".png";
     var urls = [
@@ -238,16 +229,16 @@ class MyScene extends THREE.Scene {
       this.animacion.start();
       this.camaraJuego = this.cat.camara;
 
-      if(this.keysStatus['right'])
+      if(this.keysStatus['right'] && this.x_offset <= 8)
         this.x_offset += 0.1
       
-      if(this.keysStatus['left'])
+      if(this.keysStatus['left'] && this.x_offset >= -8)
         this.x_offset -= 0.1
       
-      if(this.keysStatus['down'])
+      if(this.keysStatus['down'] && this.y_offset >= -5)
         this.y_offset -= 0.1
       
-      if(this.keysStatus['up'])
+      if(this.keysStatus['up'] && this.y_offset <= 3)
         this.y_offset += 0.1
     
     }else{
