@@ -8,7 +8,6 @@ import * as TWEEN from '../libs/tween.esm.js'
 import { Cat } from './Cat.js'
 import { Recorrido } from './Recorrido.js' 
 import { BurbujasGestor } from './BurbujasGestor.js'
-import { Burbuja } from './Burbuja.js'
 import { Meta } from './Meta.js'
 
 class MyScene extends THREE.Scene {
@@ -57,41 +56,42 @@ class MyScene extends THREE.Scene {
     )
 
     //  ******* Animación burbujas(zigzag, ascenso y opacidad) ************
-      var n_burbujas = 400;
-      this.burbujas = [];
+    this.burbujas_gestor = new BurbujasGestor(this.texture);
 
-      for(var i = 0; i < n_burbujas;++i){
-        this.burbujas.push(new Burbuja(this.texture));
-      }
+    this.posini_burb = {y:-10}
+    this.posfin_burb = {y:30}
 
-     this.posini_burb = {y:-10}
-     this.posfin_burb = {y:30}
+    this.opacidad_ini = {o: 0};
+    this.opacidad_fin = {o: 0.6};
 
-     this.opacidad_ini = {o: 0};
-     this.opacidad_fin = {o: 1};
+    this.animacion_opacidad = 
+      new TWEEN.Tween(this.opacidad_ini).to(this.opacidad_fin, 3000)
+      .repeat(Infinity).yoyo(true).easing(TWEEN.Easing.Quadratic.InOut).start();
 
-     this.animacion_opacidad = 
-     new TWEEN.Tween(this.opacidad_ini).to(this.opacidad_fin, 3000)
-    .repeat(Infinity).yoyo(true).easing(TWEEN.Easing.Quadratic.InOut).start();
+    this.poszigzag_ini = {x:0};
+    this.poszigzag_fin = {x:2}
+    this.animacion_zigzag = new TWEEN.Tween(this.poszigzag_ini).to(this.poszigzag_fin, 1500)
+    .repeat(Infinity).yoyo(true).easing(TWEEN.Easing.Quadratic.InOut).start().easing(TWEEN.Easing.Quadratic.InOut);
 
+    var n_burbujas = 400;
+    this.burbujas = [];
+    for(var i = 0; i < n_burbujas;++i){
+      this.burbujas.push(this.burbujas_gestor.getBurbuja());
+    }
 
-       this.poszigzag_ini = {x:0};
-       this.poszigzag_fin = {x:2}
-       this.animacion_zigzag = new TWEEN.Tween(this.poszigzag_ini).to(this.poszigzag_fin, 1500)
-      .repeat(Infinity).yoyo(true).easing(TWEEN.Easing.Quadratic.InOut).start().easing(TWEEN.Easing.Quadratic.InOut);
+    this.burbujas.forEach(function(item){
+      that.add(item);
+    })
 
-       this.burbujas.forEach(function(item){
-        that.add(item);
-       })
-
-     this.animacion_burbujas = new TWEEN.Tween(this.posini_burb).to(this.posfin_burb, 6000).onUpdate(
-       function(){
+    this.animacion_burbujas = new TWEEN.Tween(this.posini_burb).to(this.posfin_burb, 6000).onUpdate(
+      function(){
         
-           that.burbujas.forEach(function(item){
-            item.modificarOpacidad(that.opacidad_ini.o);
-            item.position.x = that.poszigzag_ini.x;
-            item.position.y = that.posini_burb.y;
-          })
+        that.burbujas.forEach(function(item){
+          item.modificarOpacidad(that.opacidad_ini.o);
+          item.position.x = that.poszigzag_ini.x;
+          item.position.y = that.posini_burb.y;
+        })
+
       }
     ).start().repeat(Infinity);
   }
