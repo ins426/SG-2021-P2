@@ -9,7 +9,7 @@ class BurbujasGestor extends THREE.Object3D {
     }
 
     getBurbuja(){
-        if(this.buffer.length){
+        if(this.buffer.length > 0){
             return this.buffer.pop();
         }else{
             return new Burbuja(this.textureCube);
@@ -18,6 +18,10 @@ class BurbujasGestor extends THREE.Object3D {
 
     recibirBurbuja(burbuja){
         this.buffer.push(burbuja);
+    }
+
+    getTamanioBuffer(){
+        return this.buffer.length;
     }
 }
 export { BurbujasGestor }

@@ -13,7 +13,7 @@ class Burbuja extends THREE.Object3D {
             new THREE.SphereBufferGeometry(0.1,32,32), material);
 
         this.burbuja.position.set(Math.floor(Math.random()*(80-(-80)+1)-80),
-                            Math.floor(Math.random()*(80-5+1)-5),
+                            Math.floor(Math.random()*(50-5+1)-5),
                             Math.floor(Math.random()*(80-(-80)+1)-80));
 
         this.burbuja.scale.set(this.radio, this.radio, this.radio);
@@ -26,6 +26,18 @@ class Burbuja extends THREE.Object3D {
 
     getPosicion(){
         return this.burbuja.position;
+    }
+
+    animarBurbuja(x,y,z){
+        this.burbuja.position.x += x
+        this.burbuja.position.y += y
+        this.burbuja.position.z += z
+    }
+
+    setPosicion(x,y,z){
+        this.burbuja.position.x = x
+        this.burbuja.position.y = y
+        this.burbuja.position.z = z
     }
 
     getRadio(){
