@@ -17,6 +17,9 @@ class BurbujasGestor extends THREE.Object3D {
     }
 
     recibirBurbuja(burbuja){
+        burbuja.setPosicion(burbuja.getPosicionLocal().x,Math.floor(Math.random()*((-10)-20+1)-20),
+        burbuja.getPosicionLocal().z);
+
         this.buffer.push(burbuja);
     }
 

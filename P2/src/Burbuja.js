@@ -24,7 +24,7 @@ class Burbuja extends THREE.Object3D {
         this.burbuja.material.opacity = opacidad;
     }
 
-    getPosicion(){
+    getPosicionLocal(){
         return this.burbuja.position;
     }
 
