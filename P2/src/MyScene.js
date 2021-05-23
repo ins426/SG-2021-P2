@@ -30,6 +30,7 @@ class MyScene extends THREE.Scene {
 
     this.addElementosEscena();
     this.addAnimaciones();
+
   }
 
   addAnimaciones(){
@@ -98,6 +99,14 @@ class MyScene extends THREE.Scene {
     this.meta = new Meta();
     this.meta.scale.set(5, 5,5);
     this.add(this.meta);
+
+    //Desplazamientos máximos y mínimo
+    const vFOV = (this.camaraJuego.fov * Math.PI) / 180;
+    const height = 2 * Math.tan(vFOV / 2) * Math.abs(this.camaraJuego.position.z);
+    const width = height * this.camaraJuego.aspect;
+
+    this.width = width/2; //Ancho de la pantalla en coordenadas de mundo
+    this.height = height/2; //Altura de la pantalla en coordenadas de mundo
   }
 
   crearCamaraMenu(){
@@ -200,16 +209,16 @@ class MyScene extends THREE.Scene {
       this.animacion.start();
       this.camaraJuego = this.cat.camara;
 
-      if(this.keysStatus['right'] && this.x_offset <= 8)
-        this.x_offset += 0.1
+      if(this.keysStatus['right'] && this.x_offset <= (this.width/2)-4)
+        this.x_offset += 0.1;
       
-      if(this.keysStatus['left'] && this.x_offset >= -8)
+      if(this.keysStatus['left'] && this.x_offset >= (-this.width/2)+4)
         this.x_offset -= 0.1
       
-      if(this.keysStatus['down'] && this.y_offset >= -5)
+      if(this.keysStatus['down'] && this.y_offset >= (-this.height/2)+2)
         this.y_offset -= 0.1
       
-      if(this.keysStatus['up'] && this.y_offset <= 3)
+      if(this.keysStatus['up'] && this.y_offset <= (this.height/2)-3)
         this.y_offset += 0.1
     
     }else{
