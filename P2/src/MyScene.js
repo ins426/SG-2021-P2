@@ -199,10 +199,12 @@ class MyScene extends THREE.Scene {
       this.cat.localToWorld(pos);
     
       var anillo_colisionado;
-      if ((anillo_colisionado = this.recorrido.comprobarColisiones(pos, 0.5)) != -1){
-        if (anillo_colisionado != this.ultima_colision){
+      anillo_colisionado = this.recorrido.comprobarColisiones(pos, 0.5);
+
+      if (anillo_colisionado['indice']  != -1){
+        if (anillo_colisionado['indice'] != this.ultima_colision['indice']){
           let puntuacion = parseInt(document.getElementById("puntuacion").innerHTML, 10);
-          document.getElementById("puntuacion").innerHTML = puntuacion + 1;
+          document.getElementById("puntuacion").innerHTML = puntuacion + anillo_colisionado['anillo'].puntuacion;
           this.ultima_colision = anillo_colisionado;
         }
       }

@@ -1,5 +1,6 @@
 import * as THREE from "../libs/three.module.js"
-import { Anillo } from './Anillo.js'
+import { Anillo1 } from './Anillo1.js'
+import { Anillo2 } from './Anillo2.js'
 
 class Recorrido extends THREE.Object3D {
     constructor(){
@@ -60,24 +61,35 @@ class Recorrido extends THREE.Object3D {
             ));
 
             posicion.add(pos_offset);
-            let anillo = new Anillo();
+
+            var tipo = Math.floor(Math.random() * (2-1+1)+1);
+
+            if(tipo == 1){
+                var anillo = new Anillo1(4);
+            }
+            else{
+                var anillo = new Anillo2(2);
+            }
+
             anillo.position.copy(posicion);
             this.anillos.push(anillo);
-
 
             this.add(anillo);
         }
     }
 
     comprobarColisiones(posicionB, radioB){
-        var res = -1;
-        
+        var res = {indice:-1, anillo:null};
+
         var i;
-        for (i = 0; i < this.anillos.length && res == -1; ++i){
-            if(this.anillos[i].position.distanceTo(posicionB) <= (radioB + (this.anillos[i].radio)/2))
-                res = i;
+        for (i = 0; i < this.anillos.length && res['indice'] == -1; ++i){
+            if(this.anillos[i].position.distanceTo(posicionB) <= (radioB + (this.anillos[i].radio)/2)){
+                res['indice'] = i
+                res['anillo'] = this.anillos[i]
+            }
         }
 
+        
         return res;
     }
 }

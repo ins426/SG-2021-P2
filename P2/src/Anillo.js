@@ -1,18 +1,18 @@
 import * as THREE from "../libs/three.module.js"
 
 class Anillo extends THREE.Object3D {
-    constructor(){
+    constructor(radio){
         super();
-        this.radio = 2
+        
+        this.puntuacion = 0;
+        this.radio = radio;
+        this.mat = new THREE.MeshNormalMaterial();
 
-        let geom = new THREE.TorusBufferGeometry(this.radio, 0.2, 32, 32);
-        let mat = new THREE.MeshNormalMaterial();
-        this.anillo_mesh = new THREE.Mesh(geom, mat);
-        this.add(this.anillo_mesh);
+        this.geom = new THREE.TorusBufferGeometry(this.radio, 0.2, 32, 32);
+        this.anillo_mesh = new THREE.Mesh(this.geom, this.mat);
 
-        let esfera_geom = new THREE.SphereBufferGeometry(this.radio/2);
-        this.esfera_mesh = new THREE.Mesh(esfera_geom, mat);
-        this.add(this.esfera_mesh);
+        this.esfera_geom = new THREE.SphereBufferGeometry(this.radio/2);
+        this.esfera_mesh = new THREE.Mesh(this.esfera_geom, this.mat);
     }
 }
 
