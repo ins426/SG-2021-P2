@@ -244,6 +244,7 @@ class MyScene extends THREE.Scene {
   }
 
   update () {
+    //console.log(this.jugadores[1].keysStatus);
     this.spotLight.intensity = this.guiControls.lightIntensity;
     this.axis.visible = this.guiControls.axisOnOff;
     this.cameraControl.update();
@@ -288,6 +289,7 @@ class MyScene extends THREE.Scene {
   }
 
   setUpStatus(status, ind){
+    console.log(ind);
     this.jugadores[ind].keysStatus['up'] = status;
   }
 
