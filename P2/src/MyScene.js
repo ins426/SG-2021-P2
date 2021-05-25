@@ -45,12 +45,16 @@ class MyScene extends THREE.Scene {
       function(){
         var posicion = that.recorrido.getPointAt(that.t_ini.t);
         var tangente = that.recorrido.getTangentAt(that.t_ini.t);
-        that.cat.movimiento(that.x_offset,that.y_offset)
-        that.cat.position.copy(posicion);
-        that.camera.position.copy(that.cat.position);
-        that.cameraControl.target = that.cat.position;
-        posicion.add(tangente);
-        that.cat.lookAt(posicion);
+
+        that.personajes.forEach(personaje => {
+          personaje.movimiento(that.x_offset,that.y_offset)
+          personaje.position.copy(posicion);
+          that.camera.position.copy(personaje.position);
+          that.cameraControl.target = personaje.position;
+          posicion.add(tangente);
+          personaje.lookAt(posicion);
+        });
+
         that.camera.lookAt(posicion);
       }
     )
@@ -241,7 +245,7 @@ class MyScene extends THREE.Scene {
         }
       }
       this.animacion.start();
-      this.camaraJuego = this.cat.camara;
+      this.camaraJuego = this.personajes[0].camara;
 
       if(this.keysStatus['right'] && this.x_offset <= (this.width/2)-4)
         this.x_offset += this.jugador.vx;
