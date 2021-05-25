@@ -8,6 +8,7 @@ class Jugador {
         this.puntuacion = 0;
         this.temporizador = new Temporizador();
         this.ultima_colision = -1;
+        this.indice_personaje = -1;
     }
 
     setVelocidad(vx,vy){

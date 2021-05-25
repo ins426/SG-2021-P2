@@ -3,11 +3,11 @@ import { Jugador } from './Jugador.js'
 
 class Juego{
     constructor(myCanvas, njugadores){
-        this.escena = new MyScene(myCanvas);
         this.jugadores = [];
         for (var i = 0; i < njugadores; ++i)
             this.jugadores.push(new Jugador());
 
+        this.escena = new MyScene(myCanvas, this.jugadores);
         this.iniciarKeyLogger();
     }
 
@@ -63,7 +63,7 @@ class Juego{
 }
 
 $(function () {
-    var juego = new Juego("#WebGL-output");
+    var juego = new Juego("#WebGL-output", 1);
     document.getElementById("boton-empezar").onclick = function Start (){
       juego.empezarJuego();
     }

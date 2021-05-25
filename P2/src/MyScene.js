@@ -12,15 +12,17 @@ import { Meta } from './Meta.js'
 import { Jugador } from './Jugador.js'
 
 class MyScene extends THREE.Scene {
-  constructor (myCanvas) {
+  constructor (myCanvas, jugadores) {
     super();
 
     this.juegoIniciado = false;
     this.keysStatus = {up: false, down: false, left: false, right: false};
     this.temporizador_activado = false;
-
     this.renderer = this.createRenderer(myCanvas);
     this.gui = this.createGUI ();
+    this.jugadores = jugadores;
+    this.personajes = [];
+
     this.createLights ();
     this.createCamera ();
     this.crearCamaraMenu();
@@ -68,17 +70,20 @@ class MyScene extends THREE.Scene {
   }
 
   crearJugador(){
-    this.jugador = new Jugador("Ines");
+    this.jugador = this.jugadores[0];
   }
 
   addElementosEscena(){
     this.axis = new THREE.AxesHelper (5);
     this.add (this.axis);
 
-    //Gato
-    this.cat = new Cat();
-    this.cat.position.set(0, 0, 70)
-    this.add(this.cat);
+    //Personajes
+    this.jugadores.forEach(element => {
+      this.cat = new Cat();
+      this.cat.position.set(0, 0, 70)
+      this.add(this.cat);
+      this.personajes.push(this.cat);
+    });
 
     //Mundo
     var path = "../imgs/cubemap/";
@@ -189,6 +194,30 @@ class MyScene extends THREE.Scene {
     this.renderer.setSize (window.innerWidth, window.innerHeight);
   }
 
+  gestionarColisiones(ind_jugador){
+    var pos = this.personajes[ind_jugador].getPosicionLocal().clone();
+    this.personajes[ind_jugador].localToWorld(pos);
+  
+    var anillo_colisionado;
+    anillo_colisionado = this.recorrido.comprobarColisiones(pos, 0.5);
+
+    if (anillo_colisionado['indice']  != -1){
+      if (anillo_colisionado['indice'] != this.jugadores[ind_jugador].ultima_colision){
+        //Recompensas de la colisión con los anillos
+        if(anillo_colisionado['anillo'].bonificacion_velocidad == 0){
+          document.getElementById("puntuacion").innerHTML = this.jugadores[ind_jugador].sumaPuntuacion(anillo_colisionado['anillo'].puntuacion);
+        }
+        else{
+          let bonus = anillo_colisionado['anillo'].bonificacion_velocidad;
+          this.jugadores[ind_jugador].setVelocidad(bonus,bonus);
+          this.jugadores[ind_jugador].temporizador.init();
+          this.temporizador_activado = true;
+        }
+        this.jugadores[ind_jugador].ultima_colision = anillo_colisionado['indice'];
+      }
+    }
+  }
+
   update () {
     this.spotLight.intensity = this.guiControls.lightIntensity;
     this.axis.visible = this.guiControls.axisOnOff;
@@ -196,28 +225,10 @@ class MyScene extends THREE.Scene {
     this.renderer.render (this, this.getCamera());
 
     if(this.juegoIniciado){
-      var pos = this.cat.getPosicionLocal().clone();
-      this.cat.localToWorld(pos);
-    
-      var anillo_colisionado;
-      anillo_colisionado = this.recorrido.comprobarColisiones(pos, 0.5);
-
-      if (anillo_colisionado['indice']  != -1){
-        if (anillo_colisionado['indice'] != this.jugador.ultima_colision){
-          //Recompensas de la colisión con los anillos
-          if(anillo_colisionado['anillo'].bonificacion_velocidad == 0){
-            document.getElementById("puntuacion").innerHTML = this.jugador.sumaPuntuacion(anillo_colisionado['anillo'].puntuacion);
-          }
-          else{
-            let bonus = anillo_colisionado['anillo'].bonificacion_velocidad;
-            this.jugador.setVelocidad(bonus,bonus);
-            this.jugador.temporizador.init();
-            this.temporizador_activado = true;
-          }
-          this.jugador.ultima_colision = anillo_colisionado['indice'];
-        }
-      }
-
+      this.jugadores.forEach((jugador, index) => {
+        this.gestionarColisiones(index);
+      });
+      
       if(this.temporizador_activado){
         let tiempo = this.jugador.temporizador.getTiempo()
 
