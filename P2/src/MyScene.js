@@ -26,6 +26,9 @@ class MyScene extends THREE.Scene {
 
     this.addElementosEscena();
     this.addAnimaciones();
+
+    //AUDIOS
+    this.audio_anillo = document.getElementById("sonido-anillo");
   }
 
   addAnimaciones(){
@@ -199,6 +202,7 @@ class MyScene extends THREE.Scene {
 
     if (anillo_colisionado['indice']  != -1){
       if (anillo_colisionado['indice'] != this.jugadores[ind_jugador].ultima_colision){
+        this.audio_anillo.play();
         //Recompensas de la colisión con los anillos
         if(anillo_colisionado['anillo'].bonificacion_velocidad == 0){
           document.getElementById("puntuacion").innerHTML = this.jugadores[ind_jugador].sumaPuntuacion(anillo_colisionado['anillo'].puntuacion);
