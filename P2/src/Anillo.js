@@ -4,6 +4,7 @@ class Anillo extends THREE.Object3D {
     constructor(radio){
         super();
         
+        this.bonificacion_velocidad = 0;
         this.puntuacion = 0;
         this.radio = radio;
         this.mat = new THREE.MeshNormalMaterial();

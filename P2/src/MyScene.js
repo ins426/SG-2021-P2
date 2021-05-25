@@ -62,7 +62,7 @@ class MyScene extends THREE.Scene {
     //  ******* Animación burbujas(zigzag, ascenso y opacidad) ************
     this.burbujas_gestor = new BurbujasGestor(this.texture);
 
-    var n_burbujas = 400;
+    var n_burbujas = 200;
     this.burbujas = [];
     for(var i = 0; i < n_burbujas;++i){
       this.burbujas.push(this.burbujas_gestor.getBurbuja());
@@ -210,14 +210,15 @@ class MyScene extends THREE.Scene {
 
       if (anillo_colisionado['indice']  != -1){
         if (anillo_colisionado['indice'] != this.ultima_colision['indice']){
-          let puntuacion = parseInt(document.getElementById("puntuacion").innerHTML, 10);
+          //let puntuacion = parseInt(document.getElementById("puntuacion").innerHTML, 10);
 
           //Recompensas de la colisión con los anillos
-          if((anillo_colisionado['anillo'].constructor.name == 'Anillo1') || (anillo_colisionado['anillo'].constructor.name == 'Anillo2')){
+          if(anillo_colisionado['anillo'].bonificacion_velocidad == 0){
             document.getElementById("puntuacion").innerHTML = this.jugador.sumaPuntuacion(anillo_colisionado['anillo'].puntuacion);
           }
           else{
-            this.jugador.setVelocidad(anillo_colisionado['anillo'].bonificacion_velocidad,anillo_colisionado['anillo'].bonificacion_velocidad)
+            let bonus = anillo_colisionado['anillo'].bonificacion_velocidad;
+            this.jugador.setVelocidad(bonus,bonus);
             this.jugador.temporizador.init();
             this.temporizador_activado = true;
           }
@@ -231,6 +232,7 @@ class MyScene extends THREE.Scene {
         //Reseteo del temporizador y de la velocidad del jugador
         if(tiempo >= 5){
           clearInterval(this.jugador.temporizador.intervaloId);
+          this.jugador.temporizador.setTiempo(0);
           this.temporizador_activado = false;
           this.jugador.setVelocidad(0.1,0.1);
         }

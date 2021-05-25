@@ -64,22 +64,26 @@ class Recorrido extends THREE.Object3D {
             posicion.add(pos_offset);
 
             var tipo = Math.floor(Math.random() * (3-1+1)+1);
+            let radio1 = 4;
+            let radio2 = 2;
+            let radio3 = 1;
 
-            if(tipo == 1){
-                var anillo = new Anillo1(4);
-            }
-            else{
-                if(tipo == 2){
-                    var anillo = new Anillo2(2);
-                }
-                else{
-                    var anillo = new Anillo3(1); 
-                }
+            switch (tipo) {
+                case 1:
+                    var anillo = new Anillo1(radio1);
+                    break;
+            
+                case 2:
+                    var anillo = new Anillo2(radio2);
+                    break;
+
+                case 3:
+                    var anillo = new Anillo3(radio3); 
+                    break;
             }
 
             anillo.position.copy(posicion);
             this.anillos.push(anillo);
-
             this.add(anillo);
         }
     }
