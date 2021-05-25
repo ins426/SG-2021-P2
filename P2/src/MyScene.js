@@ -9,23 +9,21 @@ import { Cat } from './Cat.js'
 import { Recorrido } from './Recorrido.js' 
 import { BurbujasGestor } from './BurbujasGestor.js'
 import { Meta } from './Meta.js'
-import { Jugador } from './Jugador.js'
 
 class MyScene extends THREE.Scene {
-  constructor (myCanvas) {
+  constructor (myCanvas, jugadores) {
     super();
 
     this.juegoIniciado = false;
-    this.keysStatus = {up: false, down: false, left: false, right: false};
-    this.temporizador_activado = false;
-
     this.renderer = this.createRenderer(myCanvas);
     this.gui = this.createGUI ();
+    this.jugadores = jugadores;
+    this.personajes = [];
+
     this.createLights ();
     this.createCamera ();
     this.crearCamaraMenu();
 
-    this.crearJugador()
     this.addElementosEscena();
     this.addAnimaciones();
 
@@ -46,12 +44,16 @@ class MyScene extends THREE.Scene {
       function(){
         var posicion = that.recorrido.getPointAt(that.t_ini.t);
         var tangente = that.recorrido.getTangentAt(that.t_ini.t);
-        that.cat.movimiento(that.x_offset,that.y_offset)
-        that.cat.position.copy(posicion);
-        that.camera.position.copy(that.cat.position);
-        that.cameraControl.target = that.cat.position;
-        posicion.add(tangente);
-        that.cat.lookAt(posicion);
+
+        that.personajes.forEach((personaje, index) => {
+          personaje.movimiento(that.jugadores[index].x_offset, that.jugadores[index].y_offset)
+          personaje.position.copy(posicion);
+          that.camera.position.copy(personaje.position);
+          that.cameraControl.target = personaje.position;
+          posicion.add(tangente);
+          personaje.lookAt(posicion);
+        });
+
         that.camera.lookAt(posicion);
       }
     )
@@ -70,18 +72,17 @@ class MyScene extends THREE.Scene {
     })
   }
 
-  crearJugador(){
-    this.jugador = new Jugador("Ines");
-  }
-
   addElementosEscena(){
     this.axis = new THREE.AxesHelper (5);
     this.add (this.axis);
 
-    //Gato
-    this.cat = new Cat();
-    this.cat.position.set(0, 0, 70)
-    this.add(this.cat);
+    //Personajes
+    this.jugadores.forEach(element => {
+      this.cat = new Cat();
+      this.cat.position.set(0, 0, 70)
+      this.add(this.cat);
+      this.personajes.push(this.cat);
+    });
 
     //Mundo
     var path = "../imgs/cubemap/";
@@ -192,61 +193,76 @@ class MyScene extends THREE.Scene {
     this.renderer.setSize (window.innerWidth, window.innerHeight);
   }
 
+  gestionarColisiones(ind_jugador){
+    var pos = this.personajes[ind_jugador].getPosicionLocal().clone();
+    this.personajes[ind_jugador].localToWorld(pos);
+  
+    var anillo_colisionado;
+    anillo_colisionado = this.recorrido.comprobarColisiones(pos, 0.5);
+
+    if (anillo_colisionado['indice']  != -1){
+      if (anillo_colisionado['indice'] != this.jugadores[ind_jugador].ultima_colision){
+        this.audio_anillo.play();
+        //Recompensas de la colisión con los anillos
+        if(anillo_colisionado['anillo'].bonificacion_velocidad == 0){
+          document.getElementById("puntuacion").innerHTML = this.jugadores[ind_jugador].sumaPuntuacion(anillo_colisionado['anillo'].puntuacion);
+        }
+        else{
+          let bonus = anillo_colisionado['anillo'].bonificacion_velocidad;
+          this.jugadores[ind_jugador].setVelocidad(bonus,bonus);
+          this.jugadores[ind_jugador].temporizador.init();
+          this.jugadores[ind_jugador].temporizador_activado = true;
+        }
+        this.jugadores[ind_jugador].ultima_colision = anillo_colisionado['indice'];
+      }
+    }
+  }
+
+  comprobarTemporizador(ind_jugador){
+    if(this.jugadores[ind_jugador].temporizador_activado){
+      let tiempo = this.jugadores[ind_jugador].temporizador.getTiempo()
+
+      //Reseteo del temporizador y de la velocidad del jugador
+      if(tiempo >= 5){
+        clearInterval(this.jugadores[ind_jugador].temporizador.intervaloId);
+        this.jugadores[ind_jugador].temporizador.setTiempo(0);
+        this.jugadores[ind_jugador].temporizador_activado = false;
+        this.jugadores[ind_jugador].setVelocidad(0.1,0.1);
+      }
+    }
+  }
+
+  aplicarMovimiento2d(ind_jugador){
+    let jugador = this.jugadores[ind_jugador];
+    if(jugador.keysStatus['right'] && jugador.x_offset <= (this.width/2)-4)
+      jugador.x_offset += jugador.vx;
+    
+    if(jugador.keysStatus['left'] && jugador.x_offset >= (-this.width/2)+4)
+      jugador.x_offset -= jugador.vx
+    
+    if(jugador.keysStatus['down'] && jugador.y_offset >= (-this.height/2)+2)
+      jugador.y_offset -= jugador.vy
+    
+    if(jugador.keysStatus['up'] && jugador.y_offset <= (this.height/2)-3)
+      jugador.y_offset += jugador.vy
+  }
+
   update () {
+    //console.log(this.jugadores[1].keysStatus);
     this.spotLight.intensity = this.guiControls.lightIntensity;
     this.axis.visible = this.guiControls.axisOnOff;
     this.cameraControl.update();
     this.renderer.render (this, this.getCamera());
 
     if(this.juegoIniciado){
-      var pos = this.cat.getPosicionLocal().clone();
-      this.cat.localToWorld(pos);
-    
-      var anillo_colisionado;
-      anillo_colisionado = this.recorrido.comprobarColisiones(pos, 0.5);
-
-      if (anillo_colisionado['indice']  != -1){
-        if (anillo_colisionado['indice'] != this.jugador.ultima_colision){
-          //Recompensas de la colisión con los anillos
-            this.audio_anillo.play();
-          if(anillo_colisionado['anillo'].bonificacion_velocidad == 0){
-            document.getElementById("puntuacion").innerHTML = this.jugador.sumaPuntuacion(anillo_colisionado['anillo'].puntuacion);
-          }
-          else{
-            let bonus = anillo_colisionado['anillo'].bonificacion_velocidad;
-            this.jugador.setVelocidad(bonus,bonus);
-            this.jugador.temporizador.init();
-            this.temporizador_activado = true;
-          }
-          this.jugador.ultima_colision = anillo_colisionado['indice'];
-        }
-      }
-
-      if(this.temporizador_activado){
-        let tiempo = this.jugador.temporizador.getTiempo()
-
-        //Reseteo del temporizador y de la velocidad del jugador
-        if(tiempo >= 5){
-          clearInterval(this.jugador.temporizador.intervaloId);
-          this.jugador.temporizador.setTiempo(0);
-          this.temporizador_activado = false;
-          this.jugador.setVelocidad(0.1,0.1);
-        }
-      }
+      this.jugadores.forEach((jugador, index) => {
+        this.gestionarColisiones(index);
+        this.comprobarTemporizador(index);
+        this.aplicarMovimiento2d(index);
+      });
+      
       this.animacion.start();
-      this.camaraJuego = this.cat.camara;
-
-      if(this.keysStatus['right'] && this.x_offset <= (this.width/2)-4)
-        this.x_offset += this.jugador.vx;
-      
-      if(this.keysStatus['left'] && this.x_offset >= (-this.width/2)+4)
-        this.x_offset -= this.jugador.vx
-      
-      if(this.keysStatus['down'] && this.y_offset >= (-this.height/2)+2)
-        this.y_offset -= this.jugador.vy
-      
-      if(this.keysStatus['up'] && this.y_offset <= (this.height/2)-3)
-        this.y_offset += this.jugador.vy
+      this.camaraJuego = this.personajes[0].camara;
     
     }else{
       this.camaraObject.rotation.y += 0.001;
@@ -276,20 +292,21 @@ class MyScene extends THREE.Scene {
     requestAnimationFrame(() => this.update())
   }
 
-  setUpStatus(status){
-    this.keysStatus['up'] = status;
+  setUpStatus(status, ind){
+    console.log(ind);
+    this.jugadores[ind].keysStatus['up'] = status;
   }
 
-  setDownStatus(status){
-    this.keysStatus['down'] = status;
+  setDownStatus(status, ind){
+    this.jugadores[ind].keysStatus['down'] = status;
   }
 
-  setLeftStatus(status){
-    this.keysStatus['left'] = status;
+  setLeftStatus(status, ind){
+    this.jugadores[ind].keysStatus['left'] = status;
   }
 
-  setRightStatus(status){
-    this.keysStatus['right'] = status;
+  setRightStatus(status, ind){
+    this.jugadores[ind].keysStatus['right'] = status;
   }
 }
 

@@ -3,11 +3,11 @@ import { Jugador } from './Jugador.js'
 
 class Juego{
     constructor(myCanvas, njugadores){
-        this.escena = new MyScene(myCanvas);
         this.jugadores = [];
         for (var i = 0; i < njugadores; ++i)
             this.jugadores.push(new Jugador());
 
+        this.escena = new MyScene(myCanvas, this.jugadores);
         this.iniciarKeyLogger();
 
         //AUDIO
@@ -30,36 +30,30 @@ class Juego{
         var that = this
     
         document.addEventListener('keydown', function(event) {
-          if (event.key == "ArrowUp")
-            that.escena.setUpStatus(true);
-            
-          if (event.key == "ArrowLeft")
-            that.escena.setLeftStatus(true);
+          //  Controles jugador 0
+          if (event.key == "ArrowUp") that.escena.setUpStatus(true, 0);
+          if (event.key == "ArrowLeft") that.escena.setLeftStatus(true, 0);       
+          if (event.key == "ArrowDown") that.escena.setDownStatus(true, 0);
+          if (event.key == "ArrowRight") that.escena.setRightStatus(true, 0);
 
-          
-          if (event.key == "ArrowDown")
-            that.escena.setDownStatus(true);
-
-            
-          if (event.key == "ArrowRight")
-            that.escena.setRightStatus(true);
+          //  Controles jugador 1
+          if (event.key == "w") that.escena.setUpStatus(true, 1);
+          if (event.key == "a") that.escena.setLeftStatus(true, 1);       
+          if (event.key == "s") that.escena.setDownStatus(true, 1);
+          if (event.key == "d") that.escena.setRightStatus(true, 1);
         });
-    
+
         document.addEventListener('keyup', function(event) {
-            if (event.key == "ArrowUp")
-              that.escena.setUpStatus(false);
-              
-            if (event.key == "ArrowLeft")
-              that.escena.setLeftStatus(false);
-  
-            
-            if (event.key == "ArrowDown")
-              that.escena.setDownStatus(false);
-  
-              
-            if (event.key == "ArrowRight")
-              that.escena.setRightStatus(false);
-          });
+            if (event.key == "ArrowUp") that.escena.setUpStatus(false, 0);
+            if (event.key == "ArrowLeft") that.escena.setLeftStatus(false, 0);
+            if (event.key == "ArrowDown") that.escena.setDownStatus(false, 0);           
+            if (event.key == "ArrowRight")that.escena.setRightStatus(false, 0);
+
+            if (event.key == "w") that.escena.setUpStatus(false, 1);
+            if (event.key == "a") that.escena.setLeftStatus(false, 1);
+            if (event.key == "s") that.escena.setDownStatus(false, 1);           
+            if (event.key == "d")that.escena.setRightStatus(false, 1);
+        });
     }
 
     onWindowResize(){
@@ -68,7 +62,7 @@ class Juego{
 }
 
 $(function () {
-    var juego = new Juego("#WebGL-output");
+    var juego = new Juego("#WebGL-output", 2);
     document.getElementById("boton-empezar").onclick = function Start (){
       juego.empezarJuego();
     }
