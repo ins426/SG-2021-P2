@@ -17,7 +17,6 @@ class MyScene extends THREE.Scene {
 
     this.juegoIniciado = false;
     this.keysStatus = {up: false, down: false, left: false, right: false};
-    this.temporizador_activado = false;
     this.renderer = this.createRenderer(myCanvas);
     this.gui = this.createGUI ();
     this.jugadores = jugadores;
@@ -215,9 +214,23 @@ class MyScene extends THREE.Scene {
           let bonus = anillo_colisionado['anillo'].bonificacion_velocidad;
           this.jugadores[ind_jugador].setVelocidad(bonus,bonus);
           this.jugadores[ind_jugador].temporizador.init();
-          this.temporizador_activado = true;
+          this.jugadores[ind_jugador].temporizador_activado = true;
         }
         this.jugadores[ind_jugador].ultima_colision = anillo_colisionado['indice'];
+      }
+    }
+  }
+
+  comprobarTemporizador(ind_jugador){
+    if(this.jugadores[ind_jugador].temporizador_activado){
+      let tiempo = this.jugadores[ind_jugador].temporizador.getTiempo()
+
+      //Reseteo del temporizador y de la velocidad del jugador
+      if(tiempo >= 5){
+        clearInterval(this.jugadores[ind_jugador].temporizador.intervaloId);
+        this.jugadores[ind_jugador].temporizador.setTiempo(0);
+        this.jugadores[ind_jugador].temporizador_activado = false;
+        this.jugadores[ind_jugador].setVelocidad(0.1,0.1);
       }
     }
   }
@@ -231,19 +244,9 @@ class MyScene extends THREE.Scene {
     if(this.juegoIniciado){
       this.jugadores.forEach((jugador, index) => {
         this.gestionarColisiones(index);
+        this.comprobarTemporizador(index);
       });
       
-      if(this.temporizador_activado){
-        let tiempo = this.jugador.temporizador.getTiempo()
-
-        //Reseteo del temporizador y de la velocidad del jugador
-        if(tiempo >= 5){
-          clearInterval(this.jugador.temporizador.intervaloId);
-          this.jugador.temporizador.setTiempo(0);
-          this.temporizador_activado = false;
-          this.jugador.setVelocidad(0.1,0.1);
-        }
-      }
       this.animacion.start();
       this.camaraJuego = this.personajes[0].camara;
 
