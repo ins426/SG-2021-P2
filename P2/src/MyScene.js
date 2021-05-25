@@ -9,6 +9,7 @@ import { Cat } from './Cat.js'
 import { Recorrido } from './Recorrido.js' 
 import { BurbujasGestor } from './BurbujasGestor.js'
 import { Meta } from './Meta.js'
+import { Jugador } from './Jugador.js'
 
 class MyScene extends THREE.Scene {
   constructor (myCanvas) {
@@ -21,6 +22,7 @@ class MyScene extends THREE.Scene {
 
     this.juegoIniciado = false;
     this.keysStatus = {up: false, down: false, left: false, right: false};
+    this.temporizador_activado = false;
 
     this.renderer = this.createRenderer(myCanvas);
     this.gui = this.createGUI ();
@@ -28,6 +30,7 @@ class MyScene extends THREE.Scene {
     this.createCamera ();
     this.crearCamaraMenu();
 
+    this.crearJugador()
     this.addElementosEscena();
     this.addAnimaciones();
 
@@ -68,6 +71,10 @@ class MyScene extends THREE.Scene {
     this.burbujas.forEach(function(item){
       that.add(item);
     })
+  }
+
+  crearJugador(){
+    this.jugador = new Jugador("Ines");
   }
 
   addElementosEscena(){
@@ -204,24 +211,44 @@ class MyScene extends THREE.Scene {
       if (anillo_colisionado['indice']  != -1){
         if (anillo_colisionado['indice'] != this.ultima_colision['indice']){
           let puntuacion = parseInt(document.getElementById("puntuacion").innerHTML, 10);
-          document.getElementById("puntuacion").innerHTML = puntuacion + anillo_colisionado['anillo'].puntuacion;
+
+          //Recompensas de la colisión con los anillos
+          if((anillo_colisionado['anillo'].constructor.name == 'Anillo1') || (anillo_colisionado['anillo'].constructor.name == 'Anillo2')){
+            document.getElementById("puntuacion").innerHTML = this.jugador.sumaPuntuacion(anillo_colisionado['anillo'].puntuacion);
+          }
+          else{
+            this.jugador.setVelocidad(anillo_colisionado['anillo'].bonificacion_velocidad,anillo_colisionado['anillo'].bonificacion_velocidad)
+            this.jugador.temporizador.init();
+            this.temporizador_activado = true;
+          }
           this.ultima_colision = anillo_colisionado;
+        }
+      }
+
+      if(this.temporizador_activado){
+        let tiempo = this.jugador.temporizador.getTiempo()
+
+        //Reseteo del temporizador y de la velocidad del jugador
+        if(tiempo >= 5){
+          clearInterval(this.jugador.temporizador.intervaloId);
+          this.temporizador_activado = false;
+          this.jugador.setVelocidad(0.1,0.1);
         }
       }
       this.animacion.start();
       this.camaraJuego = this.cat.camara;
 
       if(this.keysStatus['right'] && this.x_offset <= (this.width/2)-4)
-        this.x_offset += 0.1;
+        this.x_offset += this.jugador.vx;
       
       if(this.keysStatus['left'] && this.x_offset >= (-this.width/2)+4)
-        this.x_offset -= 0.1
+        this.x_offset -= this.jugador.vx
       
       if(this.keysStatus['down'] && this.y_offset >= (-this.height/2)+2)
-        this.y_offset -= 0.1
+        this.y_offset -= this.jugador.vy
       
       if(this.keysStatus['up'] && this.y_offset <= (this.height/2)-3)
-        this.y_offset += 0.1
+        this.y_offset += this.jugador.vy
     
     }else{
       this.camaraObject.rotation.y += 0.001;

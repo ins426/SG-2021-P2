@@ -1,6 +1,7 @@
 import * as THREE from "../libs/three.module.js"
 import { Anillo1 } from './Anillo1.js'
 import { Anillo2 } from './Anillo2.js'
+import { Anillo3 } from './Anillo3.js'
 
 class Recorrido extends THREE.Object3D {
     constructor(){
@@ -62,13 +63,18 @@ class Recorrido extends THREE.Object3D {
 
             posicion.add(pos_offset);
 
-            var tipo = Math.floor(Math.random() * (2-1+1)+1);
+            var tipo = Math.floor(Math.random() * (3-1+1)+1);
 
             if(tipo == 1){
                 var anillo = new Anillo1(4);
             }
             else{
-                var anillo = new Anillo2(2);
+                if(tipo == 2){
+                    var anillo = new Anillo2(2);
+                }
+                else{
+                    var anillo = new Anillo3(1); 
+                }
             }
 
             anillo.position.copy(posicion);
@@ -87,9 +93,7 @@ class Recorrido extends THREE.Object3D {
                 res['indice'] = i
                 res['anillo'] = this.anillos[i]
             }
-        }
-
-        
+        }      
         return res;
     }
 }
