@@ -11,10 +11,10 @@
     <script type="module" src="MyScene.js"></script>      
 </head>
 <body>
-    <!------------------MENÚ--------------------->
+    <!------------------MENÚ---------------------->
     <div id='menu'>
-        <button id="boton-empezar" class="button">1 jugador</button>
-        <button id="boton-empezar" class="button">2 jugadores</button>
+        <button id="singleplayer_btn" class="button">1 jugador</button>
+        <button id="multiplayer_btn" class="button">2 jugadores</button>
     </div>
 
     <!-- Div which will hold the Output -->
@@ -27,7 +27,8 @@
     </audio>
 
    <!------------Puntuación--------------> 
-    <div id="puntuacion-contenedor"><strong>Puntuación:</strong> <div id="puntuacion">0</div></div>
+   <div id="jugador0" class="puntuacion-contenedor"><strong>Puntuación 1:</strong> <div id="puntuacion0">0</div></div> 
+   <div id="jugador1" class="puntuacion-contenedor"><strong>Puntuación 2:</strong> <div id="puntuacion1">0</div></div>
     <div id="WebGL-output">
     </div>
 </body>

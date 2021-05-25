@@ -16,7 +16,6 @@ class MyScene extends THREE.Scene {
 
     this.juegoIniciado = false;
     this.renderer = this.createRenderer(myCanvas);
-    this.gui = this.createGUI ();
     this.jugadores = jugadores;
     this.personajes = [];
 
@@ -146,26 +145,11 @@ class MyScene extends THREE.Scene {
     this.cameraControl.target = look;
   }
   
-  createGUI () {
-    var gui = new GUI();
-    this.guiControls = new function() {
-      
-      this.lightIntensity = 0.5;
-      this.axisOnOff = true;
-    }
-
-    var folder = gui.addFolder ('Luz y Ejes');
-    folder.add (this.guiControls, 'lightIntensity', 0, 1, 0.1).name('Intensidad de la Luz : ');
-    folder.add (this.guiControls, 'axisOnOff').name ('Mostrar ejes : ');
-    
-    return gui;
-  }
-  
   createLights () {
     var ambientLight = new THREE.AmbientLight(0xccddee, 0.35);
     this.add (ambientLight);
     
-    this.spotLight = new THREE.SpotLight( 0xffffff, this.guiControls.lightIntensity );
+    this.spotLight = new THREE.SpotLight( 0xffffff, 0.5 );
     this.spotLight.position.set( 0, 200, 0 );
     this.add (this.spotLight);
   }
@@ -205,7 +189,7 @@ class MyScene extends THREE.Scene {
         this.audio_anillo.play();
         //Recompensas de la colisión con los anillos
         if(anillo_colisionado['anillo'].bonificacion_velocidad == 0){
-          document.getElementById("puntuacion").innerHTML = this.jugadores[ind_jugador].sumaPuntuacion(anillo_colisionado['anillo'].puntuacion);
+          document.getElementById("puntuacion" + ind_jugador).innerHTML = this.jugadores[ind_jugador].sumaPuntuacion(anillo_colisionado['anillo'].puntuacion);
         }
         else{
           let bonus = anillo_colisionado['anillo'].bonificacion_velocidad;
@@ -248,9 +232,6 @@ class MyScene extends THREE.Scene {
   }
 
   update () {
-    //console.log(this.jugadores[1].keysStatus);
-    this.spotLight.intensity = this.guiControls.lightIntensity;
-    this.axis.visible = this.guiControls.axisOnOff;
     this.cameraControl.update();
     this.renderer.render (this, this.getCamera());
 
@@ -293,7 +274,6 @@ class MyScene extends THREE.Scene {
   }
 
   setUpStatus(status, ind){
-    console.log(ind);
     this.jugadores[ind].keysStatus['up'] = status;
   }
 

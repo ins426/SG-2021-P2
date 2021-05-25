@@ -17,7 +17,8 @@ class Juego{
 
     empezarJuego(){
         document.getElementById("menu").style.display = "none";
-        document.getElementById("puntuacion-contenedor").style.display = "block";
+        document.getElementsByClassName("puntuacion-contenedor")[0].style.display = "block";
+        document.getElementsByClassName("puntuacion-contenedor")[1].style.display = "block";
         this.audio_menu.pause();
         this.escena.juegoIniciado = true;
     }
@@ -63,8 +64,12 @@ class Juego{
 
 $(function () {
     var juego = new Juego("#WebGL-output", 2);
-    document.getElementById("boton-empezar").onclick = function Start (){
+    document.getElementById("singleplayer_btn").onclick = function Start (){
       juego.empezarJuego();
+    }
+
+    document.getElementById("multiplayer_btn").onclick = function Start (){
+        juego.empezarJuego();
     }
 
     window.addEventListener ("resize", () => juego.onWindowResize());
