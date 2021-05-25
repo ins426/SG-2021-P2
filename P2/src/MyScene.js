@@ -24,7 +24,6 @@ class MyScene extends THREE.Scene {
     this.createCamera ();
     this.crearCamaraMenu();
 
-    this.crearJugador()
     this.addElementosEscena();
     this.addAnimaciones();
   }
@@ -68,10 +67,6 @@ class MyScene extends THREE.Scene {
     this.burbujas.forEach(function(item){
       that.add(item);
     })
-  }
-
-  crearJugador(){
-    this.jugador = this.jugadores[0];
   }
 
   addElementosEscena(){
@@ -258,14 +253,11 @@ class MyScene extends THREE.Scene {
       this.jugadores.forEach((jugador, index) => {
         this.gestionarColisiones(index);
         this.comprobarTemporizador(index);
+        this.aplicarMovimiento2d(index);
       });
       
       this.animacion.start();
       this.camaraJuego = this.personajes[0].camara;
-
-      this.jugadores.forEach((element, index) => {
-        this.aplicarMovimiento2d(index);
-      });
     
     }else{
       this.camaraObject.rotation.y += 0.001;
