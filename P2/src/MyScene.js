@@ -15,11 +15,6 @@ class MyScene extends THREE.Scene {
   constructor (myCanvas) {
     super();
 
-    
-    //LLEVAR A NUEVA CLASE JUGADOR
-    this.ultima_colision = -1;
-
-
     this.juegoIniciado = false;
     this.keysStatus = {up: false, down: false, left: false, right: false};
     this.temporizador_activado = false;
@@ -33,7 +28,6 @@ class MyScene extends THREE.Scene {
     this.crearJugador()
     this.addElementosEscena();
     this.addAnimaciones();
-
   }
 
   addAnimaciones(){
@@ -209,9 +203,7 @@ class MyScene extends THREE.Scene {
       anillo_colisionado = this.recorrido.comprobarColisiones(pos, 0.5);
 
       if (anillo_colisionado['indice']  != -1){
-        if (anillo_colisionado['indice'] != this.ultima_colision['indice']){
-          //let puntuacion = parseInt(document.getElementById("puntuacion").innerHTML, 10);
-
+        if (anillo_colisionado['indice'] != this.jugador.ultima_colision){
           //Recompensas de la colisión con los anillos
           if(anillo_colisionado['anillo'].bonificacion_velocidad == 0){
             document.getElementById("puntuacion").innerHTML = this.jugador.sumaPuntuacion(anillo_colisionado['anillo'].puntuacion);
@@ -222,7 +214,7 @@ class MyScene extends THREE.Scene {
             this.jugador.temporizador.init();
             this.temporizador_activado = true;
           }
-          this.ultima_colision = anillo_colisionado;
+          this.jugador.ultima_colision = anillo_colisionado['indice'];
         }
       }
 
