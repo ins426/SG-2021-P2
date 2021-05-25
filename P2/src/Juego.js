@@ -9,11 +9,16 @@ class Juego{
             this.jugadores.push(new Jugador());
 
         this.iniciarKeyLogger();
+
+        //AUDIO
+        this.audio_menu = document.getElementById("sonido-menu");
+        this.audio_menu.play();
     }
 
     empezarJuego(){
         document.getElementById("menu").style.display = "none";
         document.getElementById("puntuacion-contenedor").style.display = "block";
+        this.audio_menu.pause();
         this.escena.juegoIniciado = true;
     }
 
