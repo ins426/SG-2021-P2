@@ -17,11 +17,12 @@ body{
     font-size: 24px;
     cursor: pointer;
     color:#fff;
-    background-image:  linear-gradient(to right, #1A2980 0%, #26D0CE  51%, #1A2980  100%);
+    background-image: linear-gradient(to right, #1A2980 0%, #26D0CE  51%, #1A2980  100%);
     border-radius: 15px;
     box-shadow: 0 0 20px #eee;
     transition: 0.5s;
     background-size: 200% auto;
+    margin-left: 2em;
 }
 
 .button:hover{
@@ -33,9 +34,18 @@ body{
 /*----------PUNTUACIÓN--------------- */
 #puntuacion-contenedor{
     display: none;
+    position: absolute;
+    color: white;
+    background: rgba(170, 170, 170, 0.5);
+    top: 2em;
+    left: 2em;
+    font-size: large;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    border-radius: 5%;
 }
+ 
 
-    
+
 
 
 

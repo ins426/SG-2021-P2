@@ -12,8 +12,8 @@ class Juego{
     }
 
     empezarJuego(){
-        document.getElementById("boton-empezar").style.display = "none";
-        document.getElementById("puntuacion-contenedor").style.display = "block"; 
+        document.getElementById("menu").style.display = "none";
+        document.getElementById("puntuacion-contenedor").style.display = "block";
         this.escena.juegoIniciado = true;
     }
 
@@ -67,7 +67,7 @@ $(function () {
     document.getElementById("boton-empezar").onclick = function Start (){
       juego.empezarJuego();
     }
-  
+
     window.addEventListener ("resize", () => juego.onWindowResize());
     juego.update();
   });

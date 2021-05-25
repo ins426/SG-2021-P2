@@ -7,17 +7,25 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="../css/estilo.css" />
     <script type="text/javascript" src="../libs/jquery.js"></script>
-    <script type="module" src="Juego.js"></script>    
+    <script type="module" src="Juego.js"></script>
+    <script type="module" src="MyScene.js"></script>      
 </head>
 <body>
     <!------------------MENÚ--------------------->
     <div id='menu'>
-        <button id="boton-empezar" class="button">START GAME</button>
+        <button id="boton-empezar" class="button">1 jugador</button>
+        <button id="boton-empezar" class="button">2 jugadores</button>
     </div>
 
-<!-- Div which will hold the Output -->
-<div id="puntuacion-contenedor">Puntuación: <div id="puntuacion">0</div></div>
-<div id="WebGL-output">
-</div>
+    <!-- Div which will hold the Output -->
+    <!------------Audio--------------> 
+    <audio id="sonido-anillo">
+        <source src="../audio/sonido_anillo.mp3" type="audio/mpeg">
+    </audio>
+
+   <!------------Puntuación--------------> 
+    <div id="puntuacion-contenedor"><strong>Puntuación:</strong> <div id="puntuacion">0</div></div>
+    <div id="WebGL-output">
+    </div>
 </body>
 </html>
