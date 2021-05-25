@@ -9,14 +9,12 @@ import { Cat } from './Cat.js'
 import { Recorrido } from './Recorrido.js' 
 import { BurbujasGestor } from './BurbujasGestor.js'
 import { Meta } from './Meta.js'
-import { Jugador } from './Jugador.js'
 
 class MyScene extends THREE.Scene {
   constructor (myCanvas, jugadores) {
     super();
 
     this.juegoIniciado = false;
-    this.keysStatus = {up: false, down: false, left: false, right: false};
     this.renderer = this.createRenderer(myCanvas);
     this.gui = this.createGUI ();
     this.jugadores = jugadores;
@@ -45,8 +43,8 @@ class MyScene extends THREE.Scene {
         var posicion = that.recorrido.getPointAt(that.t_ini.t);
         var tangente = that.recorrido.getTangentAt(that.t_ini.t);
 
-        that.personajes.forEach(personaje => {
-          personaje.movimiento(that.x_offset,that.y_offset)
+        that.personajes.forEach((personaje, index) => {
+          personaje.movimiento(that.jugadores[index].x_offset, that.jugadores[index].y_offset)
           personaje.position.copy(posicion);
           that.camera.position.copy(personaje.position);
           that.cameraControl.target = personaje.position;
@@ -235,6 +233,21 @@ class MyScene extends THREE.Scene {
     }
   }
 
+  aplicarMovimiento2d(ind_jugador){
+    let jugador = this.jugadores[ind_jugador];
+    if(jugador.keysStatus['right'] && jugador.x_offset <= (this.width/2)-4)
+      jugador.x_offset += jugador.vx;
+    
+    if(jugador.keysStatus['left'] && jugador.x_offset >= (-this.width/2)+4)
+      jugador.x_offset -= jugador.vx
+    
+    if(jugador.keysStatus['down'] && jugador.y_offset >= (-this.height/2)+2)
+      jugador.y_offset -= jugador.vy
+    
+    if(jugador.keysStatus['up'] && jugador.y_offset <= (this.height/2)-3)
+      jugador.y_offset += jugador.vy
+  }
+
   update () {
     this.spotLight.intensity = this.guiControls.lightIntensity;
     this.axis.visible = this.guiControls.axisOnOff;
@@ -250,17 +263,9 @@ class MyScene extends THREE.Scene {
       this.animacion.start();
       this.camaraJuego = this.personajes[0].camara;
 
-      if(this.keysStatus['right'] && this.x_offset <= (this.width/2)-4)
-        this.x_offset += this.jugador.vx;
-      
-      if(this.keysStatus['left'] && this.x_offset >= (-this.width/2)+4)
-        this.x_offset -= this.jugador.vx
-      
-      if(this.keysStatus['down'] && this.y_offset >= (-this.height/2)+2)
-        this.y_offset -= this.jugador.vy
-      
-      if(this.keysStatus['up'] && this.y_offset <= (this.height/2)-3)
-        this.y_offset += this.jugador.vy
+      this.jugadores.forEach((element, index) => {
+        this.aplicarMovimiento2d(index);
+      });
     
     }else{
       this.camaraObject.rotation.y += 0.001;
@@ -290,20 +295,20 @@ class MyScene extends THREE.Scene {
     requestAnimationFrame(() => this.update())
   }
 
-  setUpStatus(status){
-    this.keysStatus['up'] = status;
+  setUpStatus(status, ind){
+    this.jugadores[ind].keysStatus['up'] = status;
   }
 
-  setDownStatus(status){
-    this.keysStatus['down'] = status;
+  setDownStatus(status, ind){
+    this.jugadores[ind].keysStatus['down'] = status;
   }
 
-  setLeftStatus(status){
-    this.keysStatus['left'] = status;
+  setLeftStatus(status, ind){
+    this.jugadores[ind].keysStatus['left'] = status;
   }
 
-  setRightStatus(status){
-    this.keysStatus['right'] = status;
+  setRightStatus(status, ind){
+    this.jugadores[ind].keysStatus['right'] = status;
   }
 }
 
