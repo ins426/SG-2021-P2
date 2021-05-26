@@ -2,13 +2,13 @@ import { MyScene } from './MyScene.js'
 import { Jugador } from './Jugador.js'
 
 class Juego{
-    constructor(myCanvas, njugadores){
+    constructor(myCanvas){
         this.jugadores = [];
-        for (var i = 0; i < njugadores; ++i)
+        this.n_jugadores = 2;
+        for (var i = 0; i < this.n_jugadores; ++i)
             this.jugadores.push(new Jugador());
 
         this.escena = new MyScene(myCanvas, this.jugadores);
-        this.iniciarKeyLogger();
 
         //AUDIO
         this.audio_menu = document.getElementById("sonido-menu");
@@ -17,8 +17,9 @@ class Juego{
 
     empezarJuego(){
         document.getElementById("menu").style.display = "none";
-        document.getElementsByClassName("puntuacion-contenedor")[0].style.display = "block";
-        document.getElementsByClassName("puntuacion-contenedor")[1].style.display = "block";
+        for (let i = 0; i < this.n_jugadores; i++)
+            document.getElementsByClassName("puntuacion-contenedor")[i].style.display = "block";
+
         this.audio_menu.pause();
         this.escena.juegoIniciado = true;
     }
@@ -38,10 +39,12 @@ class Juego{
           if (event.key == "ArrowRight") that.escena.setRightStatus(true, 0);
 
           //  Controles jugador 1
-          if (event.key == "w") that.escena.setUpStatus(true, 1);
-          if (event.key == "a") that.escena.setLeftStatus(true, 1);       
-          if (event.key == "s") that.escena.setDownStatus(true, 1);
-          if (event.key == "d") that.escena.setRightStatus(true, 1);
+          if (that.n_jugadores == 2){
+            if (event.key == "w") that.escena.setUpStatus(true, 1);
+            if (event.key == "a") that.escena.setLeftStatus(true, 1);       
+            if (event.key == "s") that.escena.setDownStatus(true, 1);
+            if (event.key == "d") that.escena.setRightStatus(true, 1);
+          }
         });
 
         document.addEventListener('keyup', function(event) {
@@ -50,25 +53,46 @@ class Juego{
             if (event.key == "ArrowDown") that.escena.setDownStatus(false, 0);           
             if (event.key == "ArrowRight")that.escena.setRightStatus(false, 0);
 
-            if (event.key == "w") that.escena.setUpStatus(false, 1);
-            if (event.key == "a") that.escena.setLeftStatus(false, 1);
-            if (event.key == "s") that.escena.setDownStatus(false, 1);           
-            if (event.key == "d")that.escena.setRightStatus(false, 1);
+            if (that.n_jugadores == 2){
+                if (event.key == "w") that.escena.setUpStatus(false, 1);
+                if (event.key == "a") that.escena.setLeftStatus(false, 1);
+                if (event.key == "s") that.escena.setDownStatus(false, 1);           
+                if (event.key == "d")that.escena.setRightStatus(false, 1);
+            }
         });
     }
 
     onWindowResize(){
         this.escena.onWindowResize();
     }
+
+    removePlayer(){
+        if (this.n_jugadores > 0){
+            this.jugadores.pop();
+            this.escena.remove(this.escena.personajes[this.escena.personajes.length - 1]);
+            this.escena.personajes.pop();
+            this.n_jugadores--;
+        }
+    }
+
+    colocarJugadores(){
+        let separacion = 1;
+        this.jugadores[0].x_offset = separacion;
+        this.jugadores[1].x_offset = -separacion;
+    }
 }
 
 $(function () {
     var juego = new Juego("#WebGL-output", 2);
     document.getElementById("singleplayer_btn").onclick = function Start (){
-      juego.empezarJuego();
+        juego.removePlayer();
+        juego.iniciarKeyLogger();
+        juego.empezarJuego();
     }
 
     document.getElementById("multiplayer_btn").onclick = function Start (){
+        juego.colocarJugadores();
+        juego.iniciarKeyLogger();
         juego.empezarJuego();
     }
 

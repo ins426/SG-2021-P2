@@ -78,7 +78,8 @@ class MyScene extends THREE.Scene {
     //Personajes
     this.jugadores.forEach(element => {
       this.cat = new Cat();
-      this.cat.position.set(0, 0, 70)
+      this.cat.name = element.nombre;
+      //this.cat.position.set(0, 0, 70)
       this.add(this.cat);
       this.personajes.push(this.cat);
     });
