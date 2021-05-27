@@ -8,7 +8,6 @@ import * as TWEEN from '../libs/tween.esm.js'
 import { Cat } from './Cat.js'
 import { Recorrido } from './Recorrido.js' 
 import { BurbujasGestor } from './BurbujasGestor.js'
-import { Meta } from './Meta.js'
 
 class MyScene extends THREE.Scene {
   constructor (myCanvas, jugadores) {
@@ -32,14 +31,11 @@ class MyScene extends THREE.Scene {
 
   addAnimaciones(){
     //  ******* Animación gato/seguimiento cámara ************
-    this.x_offset = 0;
-    this.y_offset = 0;
-
     this.t_ini = {t: 0};
     this.t_fin = {t: 1};
 
     var that = this;
-    this.animacion = new TWEEN.Tween(this.t_ini).to(this.t_fin, 200000).repeat(Infinity).onUpdate(
+    this.animacion = new TWEEN.Tween(this.t_ini).to(this.t_fin, 40000).repeat(Infinity).onUpdate(
       function(){
         var posicion = that.recorrido.getPointAt(that.t_ini.t);
         var tangente = that.recorrido.getTangentAt(that.t_ini.t);
@@ -47,12 +43,11 @@ class MyScene extends THREE.Scene {
         that.personajes.forEach((personaje, index) => {
           personaje.movimiento(that.jugadores[index].x_offset, that.jugadores[index].y_offset)
           personaje.position.copy(posicion);
-          that.camera.position.copy(personaje.position);
-          that.cameraControl.target = personaje.position;
           posicion.add(tangente);
           personaje.lookAt(posicion);
         });
 
+        that.camera.position.copy(that.personajes[0].position);
         that.camera.lookAt(posicion);
       }
     )
@@ -99,11 +94,6 @@ class MyScene extends THREE.Scene {
     //Recorrido
     this.recorrido = new Recorrido();
     this.add(this.recorrido);
-
-    //Línea de meta
-    this.meta = new Meta();
-    this.meta.scale.set(5, 5,5);
-    this.add(this.meta);
 
     //Desplazamientos máximos y mínimo
     const vFOV = (this.camaraJuego.fov * Math.PI) / 180;

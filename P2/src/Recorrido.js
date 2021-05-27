@@ -2,6 +2,7 @@ import * as THREE from "../libs/three.module.js"
 import { Anillo1 } from './Anillo1.js'
 import { Anillo2 } from './Anillo2.js'
 import { Anillo3 } from './Anillo3.js'
+import { Meta } from './Meta.js'
 
 class Recorrido extends THREE.Object3D {
     constructor(){
@@ -12,7 +13,7 @@ class Recorrido extends THREE.Object3D {
 
         this.recorrido = []
         let i;
-        let n_puntos = 50;
+        let n_puntos = 10;
         for(i = 0; i < n_puntos; ++i){
             let x = Math.floor(Math.random() * (60-(-60)+1)-60);
             let y = Math.floor(Math.random() * (30-(10)+1)+10);
@@ -35,8 +36,13 @@ class Recorrido extends THREE.Object3D {
         var camino = new THREE.Line(geometria, new THREE.LineBasicMaterial);
 
         this.generarAnillos();
-
         this.add(camino);
+
+        //Línea de meta
+        this.meta = new Meta();
+        //this.meta.scale.set(5, 5,5);
+        this.meta.position.copy(this.curva.getPointAt(1));
+        this.add(this.meta);
     }
 
     getPointAt(t){
@@ -50,8 +56,9 @@ class Recorrido extends THREE.Object3D {
 
     generarAnillos(){
         this.anillos = [];
+        var n_anillos = 20;
 
-        for(var i = 0; i < 20; ++i){
+        for(var i = 0; i < n_anillos; ++i){
             let t = Math.random();
             let posicion = this.curva.getPointAt(t);
 

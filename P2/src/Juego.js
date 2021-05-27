@@ -77,13 +77,17 @@ class Juego{
 
     colocarJugadores(){
         let separacion = 1;
-        this.jugadores[0].x_offset = separacion;
-        this.jugadores[1].x_offset = -separacion;
+        if (this.jugadores.length == 2){
+            this.jugadores[0].x_offset = separacion;
+            this.jugadores[1].x_offset = -separacion;
+        }
     }
 }
 
 $(function () {
-    var juego = new Juego("#WebGL-output", 2);
+    //  El juego siempre comienza con dos jugadores y se retira uno de ellos en el modo Singleplayer
+    const n_jugadores_inicial = 2;
+    var juego = new Juego("#WebGL-output", n_jugadores_inicial);
     document.getElementById("singleplayer_btn").onclick = function Start (){
         juego.removePlayer();
         juego.iniciarKeyLogger();
