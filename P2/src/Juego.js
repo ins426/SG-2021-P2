@@ -8,11 +8,9 @@ class Juego{
         for (var i = 0; i < this.n_jugadores; ++i)
             this.jugadores.push(new Jugador());
 
-        this.escena = new MyScene(myCanvas, this.jugadores);
-
-        //AUDIO
-        this.audio_menu = document.getElementById("sonido-menu");
-        this.audio_menu.play();
+        this.n_vueltas = 1;
+    
+        this.escena = new MyScene(myCanvas, this.jugadores,this.n_vueltas);
     }
 
     empezarJuego(){
@@ -20,7 +18,7 @@ class Juego{
         for (let i = 0; i < this.n_jugadores; i++)
             document.getElementsByClassName("puntuacion-contenedor")[i].style.display = "block";
 
-        this.audio_menu.pause();
+        this.escena.audio_menu.pause();
         this.escena.juegoIniciado = true;
     }
 

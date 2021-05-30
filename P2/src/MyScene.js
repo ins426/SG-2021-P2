@@ -10,23 +10,29 @@ import { Recorrido } from './Recorrido.js'
 import { BurbujasGestor } from './BurbujasGestor.js'
 
 class MyScene extends THREE.Scene {
-  constructor (myCanvas, jugadores) {
+  constructor (myCanvas, jugadores,vueltas) {
     super();
 
     this.juegoIniciado = false;
     this.renderer = this.createRenderer(myCanvas);
     this.jugadores = jugadores;
+    this.n_vueltas = vueltas;
+    this.vueltas_recorridas = 0;
     this.personajes = [];
+    this.colision_comprobada_meta = false;
 
     this.createLights ();
     this.createCamera ();
     this.crearCamaraMenu();
+    this.camaraJuego = this.camaraJuegoMenu;
 
     this.addElementosEscena();
     this.addAnimaciones();
 
     //AUDIOS
     this.audio_anillo = document.getElementById("sonido-anillo");
+    this.audio_menu = document.getElementById("sonido-menu");
+    this.audio_menu.play();
   }
 
   addAnimaciones(){
@@ -106,15 +112,15 @@ class MyScene extends THREE.Scene {
 
   crearCamaraMenu(){
     this.camaraObject = new THREE.Object3D();
-    this.camaraJuego = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camaraJuegoMenu = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
     var look = new THREE.Vector3 (-10,-3,-10);
-    this.camaraJuego.lookAt(look);
+    this.camaraJuegoMenu.lookAt(look);
     this.cameraControl.target = look;
-    this.camaraJuego.position.z = 30
-    this.camaraJuego.position.x = 10
-    this.camaraJuego.position.y = 40
-    this.camaraObject.add(this.camaraJuego);
+    this.camaraJuegoMenu.position.z = 30
+    this.camaraJuegoMenu.position.x = 10
+    this.camaraJuegoMenu.position.y = 40
+    this.camaraObject.add(this.camaraJuegoMenu);
 
     this.add(this.camaraObject);
   }
@@ -168,12 +174,12 @@ class MyScene extends THREE.Scene {
     this.renderer.setSize (window.innerWidth, window.innerHeight);
   }
 
-  gestionarColisiones(ind_jugador){
+  gestionarColisionesAnillos(ind_jugador){
     var pos = this.personajes[ind_jugador].getPosicionLocal().clone();
     this.personajes[ind_jugador].localToWorld(pos);
   
     var anillo_colisionado;
-    anillo_colisionado = this.recorrido.comprobarColisiones(pos, 0.5);
+    anillo_colisionado = this.recorrido.comprobarColisionesAnillos(pos, 0.5);  //ESTE 0.5 CAMBIARLO NÚMERO MÁGICO
 
     if (anillo_colisionado['indice']  != -1){
       if (anillo_colisionado['indice'] != this.jugadores[ind_jugador].ultima_colision){
@@ -189,6 +195,20 @@ class MyScene extends THREE.Scene {
           this.jugadores[ind_jugador].temporizador_activado = true;
         }
         this.jugadores[ind_jugador].ultima_colision = anillo_colisionado['indice'];
+      }
+    }
+  }
+
+  gestionarColisionesMeta(){
+    var pos = this.personajes[0].getPosicionLocal().clone();
+    this.personajes[0].localToWorld(pos);
+
+    if(this.recorrido.comprobarColisionesMeta(pos,this.recorrido.radioMeta) && !this.colision_comprobada_meta){
+      this.vueltas_recorridas++;
+      this.colision_comprobada_meta = true;
+    }else{
+      if(!this.recorrido.comprobarColisionesMeta(pos,this.recorrido.radioMeta)){
+        this.colision_comprobada_meta = false;
       }
     }
   }
@@ -222,19 +242,33 @@ class MyScene extends THREE.Scene {
       jugador.y_offset += jugador.vy
   }
 
+  terminarPartida(){
+    this.juegoIniciado = false;
+    this.animacion.stop();
+    this.camaraJuego = this.camaraJuegoMenu;
+    this.audio_menu.play();
+    document.getElementById("puntuacion-contenedor").style.display = "flex";
+    document.getElementById("puntuacion-contenedor").style.justifyItems = "center";
+  }
+
   update () {
     this.cameraControl.update();
     this.renderer.render (this, this.getCamera());
 
     if(this.juegoIniciado){
       this.jugadores.forEach((jugador, index) => {
-        this.gestionarColisiones(index);
+        this.gestionarColisionesAnillos(index);
         this.comprobarTemporizador(index);
         this.aplicarMovimiento2d(index);
       });
-      
+      this.gestionarColisionesMeta();
+
       this.animacion.start();
       this.camaraJuego = this.personajes[0].camara;
+
+      if(this.vueltas_recorridas-1 == this.n_vueltas){
+        this.terminarPartida();
+      }
     
     }else{
       this.camaraObject.rotation.y += 0.001;

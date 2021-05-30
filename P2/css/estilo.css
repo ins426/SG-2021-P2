@@ -10,6 +10,7 @@ body{
     right: 0;
     bottom: 20%;
     margin: auto;
+    display: none;
 }
 
 .button{
@@ -33,22 +34,24 @@ body{
 }
 
 /*----------PUNTUACIÓN--------------- */
-.puntuacion-contenedor{
+#puntuacion-contenedor{
     padding: 10px;
-    display: none;
     position: absolute;
     color: white;
     background: rgba(170, 170, 170, 0.5);
-    top: 2em;
-    left: 2em;
+    /* top: 2em;
+    left: 2em; */
     font-size: large;
+    text-align: center;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     border-radius: 5%;
+    top: 50%;
+    left: 50%;
 }
 
 
 #jugador1{
-    margin-top: 80px;
+    margin-top: 20px;
 }
  
 

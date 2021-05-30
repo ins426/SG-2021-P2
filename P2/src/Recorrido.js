@@ -41,8 +41,16 @@ class Recorrido extends THREE.Object3D {
         //Línea de meta
         this.meta = new Meta();
         //this.meta.scale.set(5, 5,5);
-        this.meta.position.copy(this.curva.getPointAt(1));
+        this.meta.position.copy(this.curva.getPointAt(0.01));
         this.add(this.meta);
+
+        //Esfera colisión para la meta
+        this.radioMeta = 1.75
+        var esferaGeom = new THREE.SphereBufferGeometry(this.radioMeta,32,32);
+        var matEsfera = new THREE.MeshNormalMaterial();
+        this.esfera = new THREE.Mesh(esferaGeom,matEsfera);
+        this.esfera.position.copy(this.curva.getPointAt(0.01))
+        this.add(this.esfera);
     }
 
     getPointAt(t){
@@ -95,18 +103,29 @@ class Recorrido extends THREE.Object3D {
         }
     }
 
-    comprobarColisiones(posicionB, radioB){
+    comprobarColisionesAnillos(posicionB, radioB){
         var res = {indice:-1, anillo:null};
 
         var i;
         for (i = 0; i < this.anillos.length && res['indice'] == -1; ++i){
-            if(this.anillos[i].position.distanceTo(posicionB) <= (radioB + (this.anillos[i].radio)/2)){
+            if(this.anillos[i].position.distanceTo(posicionB) <= (radioB + (this.anillos[i].radio)/2)){ //POR QUÉ ENTRE 2
                 res['indice'] = i
                 res['anillo'] = this.anillos[i]
             }
         }      
         return res;
     }
+
+
+    comprobarColisionesMeta(posicionB, radioB){
+       if(this.meta.position.distanceTo(posicionB) <= (radioB + (this.radioMeta))){
+           return true
+       }
+       else{
+           return false
+       }
+    }
+
 }
 
 export { Recorrido }
