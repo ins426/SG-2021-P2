@@ -19,6 +19,7 @@ class Juego{
     empezarJuego(){
         this.resetJuegoStart();
         this.escena.audio_menu.pause();
+        this.escena.audio_partida.play();
         this.escena.juegoIniciado = true;
     }
 

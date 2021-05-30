@@ -32,6 +32,7 @@ class MyScene extends THREE.Scene {
     //AUDIOS
     this.audio_anillo = document.getElementById("sonido-anillo");
     this.audio_menu = document.getElementById("sonido-menu");
+    this.audio_partida = document.getElementById("sonido-partida");
     this.audio_menu.play();
   }
 
@@ -246,6 +247,7 @@ class MyScene extends THREE.Scene {
     this.juegoIniciado = false;
     this.animacion.stop();
     this.camaraJuego = this.camaraJuegoMenu;
+    this.audio_partida.pause();
     this.audio_menu.play();
 
     document.getElementById("puntuacion-contenedor").style.top = "0";
