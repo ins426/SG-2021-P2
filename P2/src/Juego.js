@@ -5,8 +5,11 @@ class Juego{
     constructor(myCanvas){
         this.jugadores = [];
         this.n_jugadores = 2;
-        for (var i = 0; i < this.n_jugadores; ++i)
-            this.jugadores.push(new Jugador());
+        this.jugador1 = new Jugador();
+        this.jugador2 = new Jugador();
+        
+        this.jugadores.push(this.jugador1);
+        this.jugadores.push(this.jugador2);
 
         this.n_vueltas = 1;
     
@@ -14,12 +17,36 @@ class Juego{
     }
 
     empezarJuego(){
-        document.getElementById("menu").style.display = "none";
-        for (let i = 0; i < this.n_jugadores; i++)
-            document.getElementsByClassName("puntuacion-contenedor")[i].style.display = "block";
-
+        this.resetJuegoStart();
         this.escena.audio_menu.pause();
         this.escena.juegoIniciado = true;
+    }
+
+    resetJuegoStart(){
+        this.escena.vueltas_recorridas = 0;
+
+        document.getElementById("menu").style.display = "none";
+        document.getElementById("return_btn").style.display = "none";
+
+        //Modificar diseño del contenedor de puntuaciones
+        document.getElementById("puntuacion-contenedor").style.display = "block";
+        document.getElementById("puntuacion-contenedor").style.top = "2em";
+        document.getElementById("puntuacion-contenedor").style.left = "2em";
+        document.getElementById("puntuacion-contenedor").style.bottom = "auto";
+        document.getElementById("puntuacion-contenedor").style.right = "auto";
+        document.getElementById("puntuacion-contenedor").style.width = "auto";
+        document.getElementById("puntuacion-contenedor").style.height = "auto";
+
+        //Reseteo de las puntuaciones
+        document.getElementById("puntuacion0").innerHTML = "0";
+        document.getElementById("puntuacion1").innerHTML = "0";
+        if(this.n_jugadores == 1){
+            this.escena.jugadores[0].setPuntuacion(0);
+        }
+        else{
+            this.escena.jugadores[0].setPuntuacion(0);
+            this.escena.jugadores[1].setPuntuacion(0);
+        }
     }
 
     update(){
@@ -68,7 +95,7 @@ class Juego{
         if (this.n_jugadores > 0){
             this.jugadores.pop();
             this.escena.remove(this.escena.personajes[this.escena.personajes.length - 1]);
-            this.escena.personajes.pop();
+            this.personaje = this.escena.personajes.pop();
             this.n_jugadores--;
         }
     }
@@ -86,6 +113,8 @@ $(function () {
     //  El juego siempre comienza con dos jugadores y se retira uno de ellos en el modo Singleplayer
     const n_jugadores_inicial = 2;
     var juego = new Juego("#WebGL-output", n_jugadores_inicial);
+
+    /*************************************Botones del menú*********************************************/
     document.getElementById("singleplayer_btn").onclick = function Start (){
         juego.removePlayer();
         juego.iniciarKeyLogger();
@@ -93,9 +122,23 @@ $(function () {
     }
 
     document.getElementById("multiplayer_btn").onclick = function Start (){
+        document.getElementById("jugador1").style.display= "block";
         juego.colocarJugadores();
         juego.iniciarKeyLogger();
         juego.empezarJuego();
+    }
+
+     /*************************************Botón del menú de puntuaciones*********************************************/
+    document.getElementById("return_btn").onclick = function volverMenu(){
+        //Si se ha jugado anteriormente una partida de 1 jugador se vuelve a añadir el jugador 2 al volver al menú 
+        if(juego.n_jugadores < 2){
+            juego.n_jugadores++;
+            juego.escena.jugadores.push(juego.jugador2);
+            juego.escena.personajes.push(juego.personaje);
+            juego.escena.add(juego.escena.personajes[1])
+        }
+        document.getElementById("menu").style.display= "block";
+        document.getElementById("puntuacion-contenedor").style.display= "none";
     }
 
     window.addEventListener ("resize", () => juego.onWindowResize());

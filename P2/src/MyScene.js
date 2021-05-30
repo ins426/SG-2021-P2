@@ -247,8 +247,15 @@ class MyScene extends THREE.Scene {
     this.animacion.stop();
     this.camaraJuego = this.camaraJuegoMenu;
     this.audio_menu.play();
-    document.getElementById("puntuacion-contenedor").style.display = "flex";
-    document.getElementById("puntuacion-contenedor").style.justifyItems = "center";
+
+    document.getElementById("puntuacion-contenedor").style.top = "0";
+    document.getElementById("puntuacion-contenedor").style.left = "0";
+    document.getElementById("puntuacion-contenedor").style.right = "0";
+    document.getElementById("puntuacion-contenedor").style.bottom = "0";
+    document.getElementById("puntuacion-contenedor").style.margin = "auto";
+    document.getElementById("puntuacion-contenedor").style.width = "15em";
+    document.getElementById("puntuacion-contenedor").style.height = "15em";
+    document.getElementById("return_btn").style.display= "block";
   }
 
   update () {

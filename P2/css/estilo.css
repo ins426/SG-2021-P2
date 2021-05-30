@@ -10,7 +10,6 @@ body{
     right: 0;
     bottom: 20%;
     margin: auto;
-    display: none;
 }
 
 .button{
@@ -39,19 +38,32 @@ body{
     position: absolute;
     color: white;
     background: rgba(170, 170, 170, 0.5);
-    /* top: 2em;
-    left: 2em; */
+    top: 2em;
+    left: 2em;
     font-size: large;
-    text-align: center;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     border-radius: 5%;
-    top: 50%;
-    left: 50%;
+    display: none;
+}
+
+.puntuacion{
+    text-align: center;
+}
+
+#return_btn{
+    display: none;
+    position: absolute;
+    padding: 8px 18px;
+    font-size: 15px;
+    width: 150px;
+    bottom: 1em; 
+    right: 0; 
 }
 
 
 #jugador1{
     margin-top: 20px;
+    display: none;
 }
  
 

@@ -25,6 +25,10 @@ class Jugador {
 
         return this.puntuacion;
     }
+
+    setPuntuacion(p){
+        this.puntuacion = p
+    }
 }
 
 export { Jugador };
