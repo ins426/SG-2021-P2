@@ -32,6 +32,7 @@ class Juego{
         document.getElementById("contenedor_vueltas").style.display = "none";
         document.getElementById("menu").style.display = "none";
         document.getElementById("return_btn").style.display = "none";
+        document.getElementById("contenedor_logo").style.display = "none";
 
         //Modificar diseño del contenedor de puntuaciones
         document.getElementById("puntuacion-contenedor").style.display = "block";
@@ -153,6 +154,7 @@ $(function () {
             juego.escena.add(juego.escena.personajes[1])
         }
         document.getElementById("menu").style.display= "block";
+        document.getElementById("contenedor_logo").style.display = "flex";
         document.getElementById("puntuacion-contenedor").style.display= "none";
         document.getElementById("contenedor_vueltas").style.display = "flex";
     }
