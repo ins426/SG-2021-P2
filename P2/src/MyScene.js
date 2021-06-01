@@ -177,7 +177,8 @@ class MyScene extends THREE.Scene {
     this.personajes[ind_jugador].localToWorld(pos);
   
     var anillo_colisionado;
-    anillo_colisionado = this.recorrido.comprobarColisionesAnillos(pos, 0.5);  //ESTE 0.5 CAMBIARLO NÚMERO MÁGICO
+    var radio_personaje = this.personajes[ind_jugador].radio_colision;
+    anillo_colisionado = this.recorrido.comprobarColisionesAnillos(pos, radio_personaje);
 
     if (anillo_colisionado['indice']  != -1){
       if (anillo_colisionado['indice'] != this.jugadores[ind_jugador].ultima_colision){

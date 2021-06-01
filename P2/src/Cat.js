@@ -6,6 +6,7 @@ class Cat extends THREE.Object3D {
     constructor(){
         super();
 
+        this.radio_colision = 0.7;
         var that = this;
         var materialLoader = new MTLLoader();
         var objectloader = new OBJLoader();
@@ -25,7 +26,7 @@ class Cat extends THREE.Object3D {
         this.camaraGatuna = this.crearCamara();
         this.add(this.camaraGatuna);
 
-        let esfera_colisiones = new THREE.SphereBufferGeometry(0.5);
+        let esfera_colisiones = new THREE.SphereBufferGeometry(this.radio_colision);
         this.esfera_colisiones_mesh = new THREE.Mesh(esfera_colisiones, new THREE.MeshNormalMaterial());
         this.add(this.esfera_colisiones_mesh);
     }
