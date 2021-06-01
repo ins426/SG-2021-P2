@@ -41,15 +41,15 @@ class Recorrido extends THREE.Object3D {
         //Línea de meta
         this.meta = new Meta();
         //this.meta.scale.set(5, 5,5);
-        this.meta.position.copy(this.curva.getPointAt(0.01));
+        this.meta.position.copy(this.curva.getPointAt(0.01));   // Meta posicionada ligeramente por delante del inicio del juego
         this.add(this.meta);
 
         //Esfera colisión para la meta
-        this.radioMeta = 1.75
+        this.radioMeta = 1.5;
         var esferaGeom = new THREE.SphereBufferGeometry(this.radioMeta,32,32);
         var matEsfera = new THREE.MeshPhongMaterial({transparent: true,opacity:0});;
         this.esfera = new THREE.Mesh(esferaGeom,matEsfera);
-        this.esfera.position.copy(this.curva.getPointAt(0.01))
+        this.esfera.position.copy(this.curva.getPointAt(0.01))  // Meta posicionada ligeramente por delante del inicio del juego
         this.add(this.esfera);
     }
 

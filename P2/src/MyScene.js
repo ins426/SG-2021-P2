@@ -57,7 +57,7 @@ class MyScene extends THREE.Scene {
         that.camera.position.copy(that.personajes[0].position);
         that.camera.lookAt(posicion);
       }
-    )
+    );
 
     //  ******* Animación burbujas(zigzag, ascenso y opacidad) ************
     this.burbujas_gestor = new BurbujasGestor(this.texture);
@@ -74,9 +74,6 @@ class MyScene extends THREE.Scene {
   }
 
   addElementosEscena(){
-    this.axis = new THREE.AxesHelper (5);
-    this.add (this.axis);
-
     //Personajes
     this.jugadores.forEach(element => {
       this.cat = new Cat();
@@ -205,6 +202,7 @@ class MyScene extends THREE.Scene {
     this.personajes[0].localToWorld(pos);
 
     if(this.recorrido.comprobarColisionesMeta(pos,this.recorrido.radioMeta) && !this.colision_comprobada_meta){
+      console.log("VUELTA");
       this.vueltas_recorridas++;
       this.colision_comprobada_meta = true;
     }else{
@@ -321,6 +319,14 @@ class MyScene extends THREE.Scene {
 
   setRightStatus(status, ind){
     this.jugadores[ind].keysStatus['right'] = status;
+  }
+
+  empezarJuego(){
+    this.audio_menu.pause();
+    this.audio_partida.play();
+    this.juegoIniciado = true;
+    this.animacion.start();
+    this.camaraJuego = this.personajes[0].camara;
   }
 }
 

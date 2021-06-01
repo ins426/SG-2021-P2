@@ -10,22 +10,26 @@ class Juego{
         
         this.jugadores.push(this.jugador1);
         this.jugadores.push(this.jugador2);
-
         this.n_vueltas = 1;
-    
-        this.escena = new MyScene(myCanvas, this.jugadores,this.n_vueltas);
+
+        this.escena = new MyScene(myCanvas, this.jugadores, this.n_vueltas);
+    }
+
+    setVueltas(n_vueltas){
+        //  Se añade una vuelta extra para no contar la primera colisión con la meta
+        this.n_vueltas = parseInt(n_vueltas);
+        this.escena.n_vueltas = parseInt(n_vueltas);
     }
 
     empezarJuego(){
         this.resetJuegoStart();
-        this.escena.audio_menu.pause();
-        this.escena.audio_partida.play();
-        this.escena.juegoIniciado = true;
+        this.escena.empezarJuego();
     }
 
     resetJuegoStart(){
         this.escena.vueltas_recorridas = 0;
 
+        document.getElementById("contenedor_vueltas").style.display = "none";
         document.getElementById("menu").style.display = "none";
         document.getElementById("return_btn").style.display = "none";
 
@@ -43,6 +47,7 @@ class Juego{
         document.getElementById("puntuacion1").innerHTML = "0";
         if(this.n_jugadores == 1){
             this.escena.jugadores[0].setPuntuacion(0);
+            document.getElementById("jugador1").style.display = "none";
         }
         else{
             this.escena.jugadores[0].setPuntuacion(0);
@@ -111,22 +116,31 @@ class Juego{
 }
 
 $(function () {
-    //  El juego siempre comienza con dos jugadores y se retira uno de ellos en el modo Singleplayer
-    const n_jugadores_inicial = 2;
-    var juego = new Juego("#WebGL-output", n_jugadores_inicial);
+    var juego = new Juego("#WebGL-output");
 
     /*************************************Botones del menú*********************************************/
     document.getElementById("singleplayer_btn").onclick = function Start (){
-        juego.removePlayer();
-        juego.iniciarKeyLogger();
-        juego.empezarJuego();
+        let n_vueltas = document.getElementById("f_vueltas").value;
+
+        if (n_vueltas){
+            console.log(n_vueltas);
+            juego.setVueltas(n_vueltas);
+            juego.removePlayer();
+            juego.iniciarKeyLogger();
+            juego.empezarJuego();
+        }
     }
 
     document.getElementById("multiplayer_btn").onclick = function Start (){
-        document.getElementById("jugador1").style.display= "block";
-        juego.colocarJugadores();
-        juego.iniciarKeyLogger();
-        juego.empezarJuego();
+        let n_vueltas = document.getElementById("f_vueltas").value;
+
+        if (n_vueltas){
+            juego.setVueltas(n_vueltas);
+            document.getElementById("jugador1").style.display= "block";
+            juego.colocarJugadores();
+            juego.iniciarKeyLogger();
+            juego.empezarJuego();
+        }
     }
 
      /*************************************Botón del menú de puntuaciones*********************************************/
@@ -140,6 +154,7 @@ $(function () {
         }
         document.getElementById("menu").style.display= "block";
         document.getElementById("puntuacion-contenedor").style.display= "none";
+        document.getElementById("contenedor_vueltas").style.display = "flex";
     }
 
     window.addEventListener ("resize", () => juego.onWindowResize());
