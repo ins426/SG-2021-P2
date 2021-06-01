@@ -5,7 +5,7 @@ class Anillo2 extends Anillo {
     constructor(radio){
         super(radio);
         this.puntuacion = 3;
-        this.anillo_mesh.material = new THREE.MeshPhongMaterial({color: 0xffff00});
+        this.anillo_mesh.material = new THREE.MeshPhongMaterial({color: 0xb5b500});
         
         this.add(this.anillo_mesh);
         this.add(this.esfera_mesh)

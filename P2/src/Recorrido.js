@@ -45,7 +45,7 @@ class Recorrido extends THREE.Object3D {
         this.add(this.meta);
 
         //Esfera colisión para la meta
-        this.radioMeta = 1.5;
+        this.radioMeta = 3;
         var esferaGeom = new THREE.SphereBufferGeometry(this.radioMeta,32,32);
         var matEsfera = new THREE.MeshPhongMaterial({transparent: true,opacity:0});;
         this.esfera = new THREE.Mesh(esferaGeom,matEsfera);

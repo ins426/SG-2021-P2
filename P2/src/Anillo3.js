@@ -6,7 +6,7 @@ class Anillo3 extends Anillo {
         super(radio);
 
         this.bonificacion_velocidad = 0.2;
-        this.anillo_mesh.material = new THREE.MeshPhongMaterial({color: 0x00FF00});
+        this.anillo_mesh.material = new THREE.MeshPhongMaterial({color: 0x00a600});
         
         this.add(this.anillo_mesh);
         this.add(this.esfera_mesh)

@@ -19,9 +19,10 @@ class Cat extends THREE.Object3D {
                         that.modelo = object;
                         that.modelo.scale.set(0.05, 0.05, 0.05);
                         that.modelo.rotateX(-Math.PI/2);
+                        that.modelo.receiveShadow = true;
                         that.add (that.modelo);
                     }, null, null);
-        })
+        });
 
         this.camaraGatuna = this.crearCamara();
         this.add(this.camaraGatuna);

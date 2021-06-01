@@ -141,16 +141,39 @@ class MyScene extends THREE.Scene {
   }
   
   createLights () {
-    var ambientLight = new THREE.AmbientLight(0xccddee, 0.35);
+    //  Iluminación anterior
+    /*var ambientLight = new THREE.AmbientLight(0xccddee, 0.35);
     this.add (ambientLight);
     
     this.spotLight = new THREE.SpotLight( 0xffffff, 0.5 );
     this.spotLight.position.set( 0, 200, 0 );
-    this.add (this.spotLight);
+    this.add (this.spotLight);*/
+
+    // Nueva iluminación
+    const upColour = 0xdbbf6b;
+    const downColour = 0X4040FF;
+    const light  = new THREE.HemisphereLight(upColour, downColour, 0.7);
+    light.position.set(0, 10, 0);
+    this.add(light);
+
+    var helper = new THREE.HemisphereLightHelper(light, 2);
+    light.add(helper);
+    
+
+    let sol = new THREE.DirectionalLight(0xffa70f, 0.8);
+    sol.position.set(-40, 15, 200);
+    sol.target.position.set(0, 20, 0);
+    this.add(sol);
+    this.add(sol.target);
+    sol.castShadow = true;
+
+    let sol_helper = new THREE.DirectionalLightHelper(sol, 10);
+    sol.add(sol_helper);
   }
   
   createRenderer (myCanvas) {
     var renderer = new THREE.WebGLRenderer({antialias: true});
+    renderer.shadowMap.enabled = true;
     renderer.setClearColor(new THREE.Color(0xEEEEEE), 1.0);
     renderer.setSize(window.innerWidth, window.innerHeight);
     $(myCanvas).append(renderer.domElement);
@@ -159,6 +182,7 @@ class MyScene extends THREE.Scene {
   }
   
   getCamera () {
+   //return this.camera;
    return this.camaraJuego;
   }
   

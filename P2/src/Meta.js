@@ -10,8 +10,8 @@ class Meta extends THREE.Object3D {
         this.pataIzq_mesh = new THREE.Mesh(pata_geom, new THREE.MeshPhongMaterial({color: 0xffffff}));
         this.pataDcha_mesh = new THREE.Mesh(pata_geom, new THREE.MeshPhongMaterial({color: 0xffffff}));
 
-        this.pataIzq_mesh.position.x = -2;
-        this.pataDcha_mesh.position.x = 2;
+        this.pataIzq_mesh.position.x = -4;
+        this.pataDcha_mesh.position.x = 4;
         this.patas = new THREE.Object3D();
         this.patas.add(this.pataDcha_mesh);
         this.patas.add(this.pataIzq_mesh);
@@ -21,7 +21,7 @@ class Meta extends THREE.Object3D {
         var texture = new THREE.TextureLoader().load('../imgs/meta.jpg');
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set( 1, 0.3 );
-        var bandera_geom = new THREE.BoxBufferGeometry(4, 1, 0.2);
+        var bandera_geom = new THREE.BoxBufferGeometry(8, 1, 0.2);
         bandera_geom.translate(0, this.altura/2, 0);
         this.bandera_mesh = new THREE.Mesh(bandera_geom, new THREE.MeshPhongMaterial({map: texture}));
         this.add(this.bandera_mesh);

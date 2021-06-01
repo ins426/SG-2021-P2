@@ -12,6 +12,7 @@ class Anillo extends THREE.Object3D {
 
         this.geom = new THREE.TorusBufferGeometry(this.radio, 0.2, 32, 32);
         this.anillo_mesh = new THREE.Mesh(this.geom, this.mat);
+        this.anillo_mesh.receiveShadow = true;
 
         this.esfera_geom = new THREE.SphereBufferGeometry(this.radio/1.5);
         this.esfera_mesh = new THREE.Mesh(this.esfera_geom, this.matSphere);
