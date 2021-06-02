@@ -26,7 +26,6 @@
         <button id="multiplayer_btn" class="button">2 jugadores</button>
     </div>
 
-    <!-- Div which will hold the Output -->
     <!------------Audio--------------> 
     <audio id="sonido-anillo">
         <source src="../audio/sonido_anillo.mp3" type="audio/mpeg">
@@ -39,12 +38,20 @@
     </audio>
 
    <!------------Puntuación-------------->
-   <div id ="puntuacion-contenedor">
-    <h3>Puntuación: </h3>
-    <div id="jugador0" class="puntuacion" ><strong>Jugador 1:</strong> <span id="puntuacion0">0</span></div> 
-    <div id="jugador1" class="puntuacion" ><strong>Jugador 2:</strong> <span id="puntuacion1">0</span></div><br>
-    <button id="return_btn" class="button">Volver al menú</button>
-</div> 
+    <div id ="puntuacion-contenedor">
+        <h3>Puntuación: </h3>
+        <div id="jugador0" class="puntuacion" ><strong>Jugador 1:</strong> <span id="puntuacion0">0</span></div> 
+        <div id="jugador1" class="puntuacion" ><strong>Jugador 2:</strong> <span id="puntuacion1">0</span></div><br>
+        <!--<button id="return_btn" class="button">Volver al menú</button>-->
+    </div> 
+
+    <div id="puntuacion-final">
+        <header id="puntuacion-header">Puntuación final:</header>
+        <div id="jugador0-final" class="puntuacion" ><strong>Jugador 1:</strong> <span id="puntuacion0-final">0</span></div> 
+        <div id="jugador1-final" class="puntuacion" ><strong>Jugador 2:</strong> <span id="puntuacion1-final">0</span></div><br>
+        <button id="return_btn" class="button">Volver al menú</button>
+    </div>
+    <!-- Div which will hold the Output -->
     <div id="WebGL-output">
     </div>
 </body>

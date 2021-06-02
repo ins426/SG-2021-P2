@@ -30,17 +30,11 @@ class Juego{
 
         document.getElementById("contenedor_vueltas").style.display = "none";
         document.getElementById("menu").style.display = "none";
-        document.getElementById("return_btn").style.display = "none";
         document.getElementById("contenedor_logo").style.display = "none";
+        document.getElementById("puntuacion-final").style.display = "none";
 
         //Modificar diseño del contenedor de puntuaciones
         document.getElementById("puntuacion-contenedor").style.display = "block";
-        document.getElementById("puntuacion-contenedor").style.top = "2em";
-        document.getElementById("puntuacion-contenedor").style.left = "2em";
-        document.getElementById("puntuacion-contenedor").style.bottom = "auto";
-        document.getElementById("puntuacion-contenedor").style.right = "auto";
-        document.getElementById("puntuacion-contenedor").style.width = "auto";
-        document.getElementById("puntuacion-contenedor").style.height = "auto";
 
         //Reseteo de las puntuaciones
         document.getElementById("puntuacion0").innerHTML = "0";
@@ -48,6 +42,7 @@ class Juego{
         if(this.n_jugadores == 1){
             this.escena.jugadores[0].setPuntuacion(0);
             document.getElementById("jugador1").style.display = "none";
+            document.getElementById("jugador1-final").style.display = "none";
         }
         else{
             this.escena.jugadores[0].setPuntuacion(0);
@@ -155,6 +150,7 @@ $(function () {
         document.getElementById("contenedor_logo").style.display = "flex";
         document.getElementById("puntuacion-contenedor").style.display= "none";
         document.getElementById("contenedor_vueltas").style.display = "flex";
+        document.getElementById("puntuacion-final").style.display = "none";
     }
 
     window.addEventListener ("resize", () => juego.onWindowResize());

@@ -168,8 +168,8 @@ class MyScene extends THREE.Scene {
     this.add(sol.target);
     sol.castShadow = true;
 
-    let sol_helper = new THREE.DirectionalLightHelper(sol, 10);
-    sol.add(sol_helper);
+    //let sol_helper = new THREE.DirectionalLightHelper(sol, 10);
+    //sol.add(sol_helper);
 
     const textureLoader = new THREE.TextureLoader();
     const textureFlare = textureLoader.load( "../imgs/lensflare/6.png" );
@@ -269,14 +269,13 @@ class MyScene extends THREE.Scene {
     this.audio_partida.pause();
     this.audio_menu.play();
 
-    document.getElementById("puntuacion-contenedor").style.top = "0";
-    document.getElementById("puntuacion-contenedor").style.left = "0";
-    document.getElementById("puntuacion-contenedor").style.right = "0";
-    document.getElementById("puntuacion-contenedor").style.bottom = "0";
-    document.getElementById("puntuacion-contenedor").style.margin = "auto";
-    document.getElementById("puntuacion-contenedor").style.width = "15em";
-    document.getElementById("puntuacion-contenedor").style.height = "15em";
-    document.getElementById("return_btn").style.display= "block";
+    this.jugadores.forEach((jugador, ind) => {
+      document.getElementById("jugador" + ind + "-final").style.display = "block";
+      document.getElementById("puntuacion" + ind + "-final").innerHTML = jugador.puntuacion;
+    });
+
+    document.getElementById("puntuacion-contenedor").style.display = "none";
+    document.getElementById("puntuacion-final").style.display = "flex";
   }
 
   update () {
