@@ -2,9 +2,11 @@ import * as THREE from '../../libs/three.module.js'
 import {ThreeBSP} from "../../libs/ThreeBSP.js"
 
 class Craneo extends THREE.Object3D {
-  constructor() {
+  constructor(skin) {
     super();
 
+    this.materiales = {0: 0x00FF00, 1:0xCF0000}
+    this.skin = skin;
     var craneo = this.crearCraneo();
     craneo.position.set(0,0.8,0)
     this.add(craneo)
@@ -16,7 +18,7 @@ class Craneo extends THREE.Object3D {
     box2Geom.translate(1.1,0,0);
     var box3Geom = new THREE.BoxGeometry(1,2,0.6)
     box3Geom.translate(0.75,-1,0)
-    var boxMat = new THREE.MeshPhongMaterial({color: 0xCF0000});
+    var boxMat = new THREE.MeshPhongMaterial({color: this.materiales[this.skin]});
 
     var craneo_cubo = new ThreeBSP(box1Geom);
     var hueco_craneo = new ThreeBSP(box2Geom);

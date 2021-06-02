@@ -3,10 +3,10 @@ import { Cabeza } from './cabeza.js'
 import { Pico } from './pico.js'
 
 class CabezaPico extends THREE.Object3D {
-    constructor() {
+    constructor(skin) {
       super();
 
-      var cabeza = new Cabeza();
+      var cabeza = new Cabeza(skin);
       var pico = new Pico();
       pico.position.set(0.65,0.4,0);
 

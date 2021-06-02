@@ -23,6 +23,8 @@ class MyScene extends THREE.Scene {
 
     this.record_puntuacion = 0
 
+    this.materiales = {0: 0x00FF00, 1:0xCF0000}
+
     this.createLights ();
     this.createCamera ();
     this.crearCamaraMenu();
@@ -81,12 +83,14 @@ class MyScene extends THREE.Scene {
 
   addElementosEscena(){
     //Personajes
+    var contador = 0;
     this.jugadores.forEach(element => {
-      this.parrot = new Parrot();
+      this.parrot = new Parrot(contador);
       this.parrot.name = element.nombre;
       //this.cat.position.set(0, 0, 70)
       this.add(this.parrot);
       this.personajes.push(this.parrot);
+      contador++;
     });
 
     //Mundo

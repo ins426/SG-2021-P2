@@ -4,15 +4,15 @@ import { Ala } from './ala.js'
 import { CuerpoPies } from './cuerpo_pies.js'
 
 class Loro extends THREE.Object3D {
-    constructor() {
+    constructor(skin) {
         super();
 
-        this.ala1 = new Ala();
-        this.ala2 = new Ala();
+        this.ala1 = new Ala(skin);
+        this.ala2 = new Ala(skin);
         this.ala1.position.set(0,0,0.4);
         this.ala2.position.set(0,0,-0.4);
 
-        var cuerpoPies = new CuerpoPies();
+        var cuerpoPies = new CuerpoPies(skin);
 
         this.add(cuerpoPies)
         this.add(this.ala1)

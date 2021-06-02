@@ -4,11 +4,11 @@ import { Cuello } from './cuello.js'
 import { CabezaPico } from './cabeza_pico.js'
 
 class ParteSuperior extends THREE.Object3D {
-    constructor() {
+    constructor(skin) {
         super();
 
-        var cuello = new Cuello();
-        var cabeza = new CabezaPico();
+        var cuello = new Cuello(skin);
+        var cabeza = new CabezaPico(skin);
         cabeza.position.set(0.4,0,0);
 
         this.add(cuello);

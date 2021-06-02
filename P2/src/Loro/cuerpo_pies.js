@@ -3,10 +3,10 @@ import { Pie } from './pie.js'
 import { Cuerpo } from './cuerpo.js'
 
 class CuerpoPies extends THREE.Object3D {
-    constructor() {
+    constructor(skin) {
       super();
 
-      var cuerpo = new Cuerpo();
+      var cuerpo = new Cuerpo(skin);
       var pie1 = new Pie();
       var pie2 = new Pie();
 

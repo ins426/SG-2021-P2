@@ -1,8 +1,11 @@
 import * as THREE from '../../libs/three.module.js'
 
 class Cuello extends THREE.Object3D {
-    constructor() {
+    constructor(skin) {
         super();
+
+        this.materiales = {0: 0x00FF00, 1:0xCF0000}
+        this.skin = skin;
 
         var cuello = this.crearCuello();
 
@@ -14,7 +17,7 @@ class Cuello extends THREE.Object3D {
     }
 
     crearCuello(){
-        var mat = new THREE.MeshPhongMaterial({color: 0xCF0000});
+        var mat = new THREE.MeshPhongMaterial({color:this.materiales[this.skin]});
 
         var box1Geom = new THREE.BoxBufferGeometry(1,0.2,0.3)
         var box2Geom = new THREE.BoxBufferGeometry(1,0.2,0.3)

@@ -3,7 +3,7 @@ import { MTLLoader } from "../libs/MTLLoader.js"
 import { OBJLoader } from "../libs/OBJLoader.js"
 import { Loro } from './Loro/loro.js'
 class Parrot extends THREE.Object3D {
-    constructor(){
+    constructor(skin){
         super();
 
         this.radio_colision = 0.7;
@@ -24,7 +24,7 @@ class Parrot extends THREE.Object3D {
         //             }, null, null);
         // });
 
-        this.loro = new Loro();
+        this.loro = new Loro(skin);
         this.loro.rotation.z = Math.PI/2;
         this.loro.rotation.x = Math.PI;
         this.loro.rotation.y = -Math.PI/2;

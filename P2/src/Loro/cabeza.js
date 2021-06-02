@@ -3,10 +3,10 @@ import { Craneo } from './craneo.js'
 import { Cara } from './cara.js'
 
 class Cabeza extends THREE.Object3D {
-    constructor() {
+    constructor(skin) {
       super();
 
-      var craneo = new Craneo()
+      var craneo = new Craneo(skin)
       var cara =  new Cara()
       cara.position.set(0.05,0.4,0);
 
