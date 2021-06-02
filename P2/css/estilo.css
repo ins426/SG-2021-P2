@@ -14,7 +14,7 @@ body{
     margin-top: 90px;
     justify-content: center;
     align-content: center;
-    background-color: white;
+    background-color: rgba(255, 255, 255);
     width: 600px;
     border-radius: 10px;
 }
@@ -29,7 +29,7 @@ body{
 /*---------- MENÚ--------------- */
 #label_vueltas{
     font-family:Arial, Helvetica, sans-serif;
-    color: white;
+    color: black;
     font-size: large;
     margin-right: 20px;
     padding-top: 10px;
@@ -45,6 +45,10 @@ body{
     margin-left: auto;
     margin-right: auto;
     top: 85%;
+    background-color: rgba(255, 255, 255, 0.774);
+    width: 300px;
+    padding: 15px;
+    border-radius: 10px;
 }
 
 
