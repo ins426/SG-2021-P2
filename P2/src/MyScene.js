@@ -3,6 +3,7 @@ import * as THREE from '../libs/three.module.js'
 import { GUI } from '../libs/dat.gui.module.js'
 import { TrackballControls } from '../libs/TrackballControls.js'
 import * as TWEEN from '../libs/tween.esm.js'
+import { Lensflare, LensflareElement } from './Lensflare.js'
 
 // Clases de mi proyecto
 import { Cat } from './Cat.js'
@@ -126,7 +127,7 @@ class MyScene extends THREE.Scene {
   
   createCamera () {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.camera.position.set (0, 0, 80);
+    this.camera.position.set (0, 50, 0);
 
     var look = new THREE.Vector3 (0,0,0);
     this.camera.lookAt(look);
@@ -157,19 +158,28 @@ class MyScene extends THREE.Scene {
     light.position.set(0, 10, 0);
     this.add(light);
 
-    var helper = new THREE.HemisphereLightHelper(light, 2);
-    light.add(helper);
+    //var helper = new THREE.HemisphereLightHelper(light, 2);
+    //light.add(helper);
     
-
     let sol = new THREE.DirectionalLight(0xffa70f, 0.8);
-    sol.position.set(-40, 15, 200);
-    sol.target.position.set(0, 20, 0);
+    sol.position.set(-60, 20, 200);
+    sol.target.position.set(0, 5, 0);
     this.add(sol);
     this.add(sol.target);
     sol.castShadow = true;
 
     let sol_helper = new THREE.DirectionalLightHelper(sol, 10);
     sol.add(sol_helper);
+
+    const textureLoader = new THREE.TextureLoader();
+    const textureFlare = textureLoader.load( "../imgs/lensflare/6.png" );
+    const lensflare = new Lensflare();
+    lensflare.addElement(new LensflareElement( textureFlare, 100, 0));
+    lensflare.addElement(new LensflareElement( textureFlare, 60, 0.1));
+    lensflare.addElement(new LensflareElement( textureFlare, 30, 0.2));
+
+
+    sol.add(lensflare);
   }
   
   createRenderer (myCanvas) {
