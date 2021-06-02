@@ -27,6 +27,7 @@ class Juego{
 
     resetJuegoStart(){
         this.escena.vueltas_recorridas = 0;
+        document.getElementById("vuelta").innerHTML = "0";
 
         document.getElementById("contenedor_vueltas").style.display = "none";
         document.getElementById("menu").style.display = "none";

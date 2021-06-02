@@ -59,6 +59,7 @@ class MyScene extends THREE.Scene {
       }
     ).onRepeat(function(){
       that.vueltas_recorridas++;
+      document.getElementById("vuelta").innerHTML = that.vueltas_recorridas;
     });
 
     //  ******* Animación burbujas(zigzag, ascenso y opacidad) ************
