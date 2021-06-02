@@ -281,11 +281,24 @@ class MyScene extends THREE.Scene {
 
       document.getElementById("record-puntuacion").style.display = "flex";
     }
+    else{
+      if(this.jugadores[0].puntuacion > this.jugadores[1].puntuacion ){
+        document.getElementById("id-ganador").innerHTML = "Jugador 1"
+      }
+      else if(this.jugadores[0].puntuacion < this.jugadores[1].puntuacion){
+        document.getElementById("id-ganador").innerHTML = "Jugador 2"
+      }else{
+        document.getElementById("id-ganador").innerHTML = "EMPATE"
+      }
+
+        document.getElementById("jugador-ganador").style.display = "flex";
+    }
 
     this.jugadores.forEach((jugador, ind) => {
       document.getElementById("jugador" + ind + "-final").style.display = "block";
       document.getElementById("puntuacion" + ind + "-final").innerHTML = jugador.puntuacion;
     });
+
 
     document.getElementById("puntuacion-contenedor").style.display = "none";
     document.getElementById("puntuacion-final").style.display = "flex";
