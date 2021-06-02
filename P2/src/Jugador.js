@@ -29,6 +29,10 @@ class Jugador {
     setPuntuacion(p){
         this.puntuacion = p
     }
+
+    getPuntuacion(){
+        return this.puntuacion;
+    }
 }
 
 export { Jugador };

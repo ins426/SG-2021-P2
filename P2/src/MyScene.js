@@ -21,6 +21,8 @@ class MyScene extends THREE.Scene {
     this.vueltas_recorridas = 0;
     this.personajes = [];
 
+    this.record_puntuacion = 0
+
     this.createLights ();
     this.createCamera ();
     this.crearCamaraMenu();
@@ -270,6 +272,15 @@ class MyScene extends THREE.Scene {
     this.camaraJuego = this.camaraJuegoMenu;
     this.audio_partida.pause();
     this.audio_menu.play();
+
+    if(this.jugadores.length == 1){
+      if(this.jugadores[0].puntuacion > this.record_puntuacion){
+        this.record_puntuacion = this.jugadores[0].puntuacion
+        document.getElementById("record").innerHTML = this.record_puntuacion
+      }
+
+      document.getElementById("record-puntuacion").style.display = "flex";
+    }
 
     this.jugadores.forEach((jugador, ind) => {
       document.getElementById("jugador" + ind + "-final").style.display = "block";

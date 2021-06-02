@@ -138,6 +138,12 @@ body{
     text-align: center;
 }
 
+#record-puntuacion{
+    font-size: 2em;
+    display: none;
+    justify-content: center;
+}
+
 #return_btn{
     position: absolute;
     padding: 8px 18px;

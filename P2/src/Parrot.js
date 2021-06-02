@@ -28,7 +28,7 @@ class Parrot extends THREE.Object3D {
         this.loro.rotation.z = Math.PI/2;
         this.loro.rotation.x = Math.PI;
         this.loro.rotation.y = -Math.PI/2;
-        //this.loro.scale.set(0.5, 0.5, 0.5);
+        this.loro.scale.set(0.5, 0.5, 0.5);
         this.add(this.loro);
 
         this.camaraGatuna = this.crearCamara();

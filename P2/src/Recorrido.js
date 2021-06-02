@@ -2,6 +2,7 @@ import * as THREE from "../libs/three.module.js"
 import { Anillo1 } from './Anillo1.js'
 import { Anillo2 } from './Anillo2.js'
 import { Anillo3 } from './Anillo3.js'
+import { Anillo4 } from './Anillo4.js'
 import { Meta } from './Meta.js'
 
 class Recorrido extends THREE.Object3D {
@@ -78,10 +79,12 @@ class Recorrido extends THREE.Object3D {
 
             posicion.add(pos_offset);
 
-            var tipo = Math.floor(Math.random() * (3-1+1)+1);
+            var tipo = Math.floor(Math.random() * (5-1+1)+1);
             let radio1 = 4;
             let radio2 = 2;
             let radio3 = 1;
+            let radio4 = 2.5;
+            let radio5 = 1.5;
 
             switch (tipo) {
                 case 1:
@@ -94,6 +97,14 @@ class Recorrido extends THREE.Object3D {
 
                 case 3:
                     var anillo = new Anillo3(radio3); 
+                    break;
+
+                case 4:
+                    var anillo = new Anillo4(radio4); 
+                    break;
+
+                case 5:
+                    var anillo = new Anillo4(radio5); 
                     break;
             }
 

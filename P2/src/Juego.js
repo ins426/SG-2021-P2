@@ -40,6 +40,7 @@ class Juego{
         //Reseteo de las puntuaciones
         document.getElementById("puntuacion0").innerHTML = "0";
         document.getElementById("puntuacion1").innerHTML = "0";
+
         if(this.n_jugadores == 1){
             this.escena.jugadores[0].setPuntuacion(0);
             document.getElementById("jugador1").style.display = "none";
@@ -152,6 +153,7 @@ $(function () {
         document.getElementById("puntuacion-contenedor").style.display= "none";
         document.getElementById("contenedor_vueltas").style.display = "flex";
         document.getElementById("puntuacion-final").style.display = "none";
+        document.getElementById("record-puntuacion").style.display = "none";
     }
 
     window.addEventListener ("resize", () => juego.onWindowResize());
