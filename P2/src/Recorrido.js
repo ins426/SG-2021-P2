@@ -117,17 +117,6 @@ class Recorrido extends THREE.Object3D {
         }      
         return res;
     }
-
-
-    comprobarColisionesMeta(posicionB, radioB){
-       if(this.meta.position.distanceTo(posicionB) <= (radioB + (this.radioMeta))){
-           return true
-       }
-       else{
-           return false
-       }
-    }
-
 }
 
 export { Recorrido }

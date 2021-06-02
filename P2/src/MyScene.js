@@ -19,7 +19,6 @@ class MyScene extends THREE.Scene {
     this.n_vueltas = vueltas;
     this.vueltas_recorridas = 0;
     this.personajes = [];
-    this.colision_comprobada_meta = false;
 
     this.createLights ();
     this.createCamera ();
@@ -42,7 +41,7 @@ class MyScene extends THREE.Scene {
     this.t_fin = {t: 1};
 
     var that = this;
-    this.animacion = new TWEEN.Tween(this.t_ini).to(this.t_fin, 40000).repeat(Infinity).onUpdate(
+    this.animacion = new TWEEN.Tween(this.t_ini).to(this.t_fin, 35000).repeat(Infinity).onUpdate(
       function(){
         var posicion = that.recorrido.getPointAt(that.t_ini.t);
         var tangente = that.recorrido.getTangentAt(that.t_ini.t);
@@ -57,7 +56,9 @@ class MyScene extends THREE.Scene {
         that.camera.position.copy(that.personajes[0].position);
         that.camera.lookAt(posicion);
       }
-    );
+    ).onRepeat(function(){
+      that.vueltas_recorridas++;
+    });
 
     //  ******* Animación burbujas(zigzag, ascenso y opacidad) ************
     this.burbujas_gestor = new BurbujasGestor(this.texture);
@@ -222,21 +223,6 @@ class MyScene extends THREE.Scene {
     }
   }
 
-  gestionarColisionesMeta(){
-    var pos = this.personajes[0].getPosicionLocal().clone();
-    this.personajes[0].localToWorld(pos);
-
-    if(this.recorrido.comprobarColisionesMeta(pos,this.recorrido.radioMeta) && !this.colision_comprobada_meta){
-      console.log("VUELTA");
-      this.vueltas_recorridas++;
-      this.colision_comprobada_meta = true;
-    }else{
-      if(!this.recorrido.comprobarColisionesMeta(pos,this.recorrido.radioMeta)){
-        this.colision_comprobada_meta = false;
-      }
-    }
-  }
-
   comprobarTemporizador(ind_jugador){
     if(this.jugadores[ind_jugador].temporizador_activado){
       let tiempo = this.jugadores[ind_jugador].temporizador.getTiempo()
@@ -293,14 +279,13 @@ class MyScene extends THREE.Scene {
         this.comprobarTemporizador(index);
         this.aplicarMovimiento2d(index);
       });
-      this.gestionarColisionesMeta();
 
       this.animacion.start();
       this.camaraJuego = this.personajes[0].camara;
 
-      if(this.vueltas_recorridas-1 == this.n_vueltas){
+      if(this.vueltas_recorridas == this.n_vueltas)
         this.terminarPartida();
-      }
+      
     
     }else{
       this.camaraObject.rotation.y += 0.001;

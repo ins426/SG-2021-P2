@@ -16,7 +16,6 @@ class Juego{
     }
 
     setVueltas(n_vueltas){
-        //  Se añade una vuelta extra para no contar la primera colisión con la meta
         this.n_vueltas = parseInt(n_vueltas);
         this.escena.n_vueltas = parseInt(n_vueltas);
     }
@@ -123,8 +122,7 @@ $(function () {
     document.getElementById("singleplayer_btn").onclick = function Start (){
         let n_vueltas = document.getElementById("f_vueltas").value;
 
-        if (n_vueltas){
-            console.log(n_vueltas);
+        if (n_vueltas && n_vueltas > 0){
             juego.setVueltas(n_vueltas);
             juego.removePlayer();
             juego.iniciarKeyLogger();
@@ -135,7 +133,7 @@ $(function () {
     document.getElementById("multiplayer_btn").onclick = function Start (){
         let n_vueltas = document.getElementById("f_vueltas").value;
 
-        if (n_vueltas){
+        if (n_vueltas && n_vueltas > 0){
             juego.setVueltas(n_vueltas);
             document.getElementById("jugador1").style.display= "block";
             juego.colocarJugadores();
