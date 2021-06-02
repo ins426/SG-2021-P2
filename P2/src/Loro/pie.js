@@ -1,5 +1,5 @@
-import * as THREE from '../libs/three.module.js'
-import {ThreeBSP} from "../libs/ThreeBSP.js"
+import * as THREE from '../../libs/three.module.js'
+import {ThreeBSP} from "../../libs/ThreeBSP.js"
 
 class Pie extends THREE.Object3D {
   constructor() {

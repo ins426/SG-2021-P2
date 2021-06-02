@@ -6,7 +6,7 @@ import * as TWEEN from '../libs/tween.esm.js'
 import { Lensflare, LensflareElement } from './Lensflare.js'
 
 // Clases de mi proyecto
-import { Cat } from './Cat.js'
+import { Parrot } from './Parrot.js'
 import { Recorrido } from './Recorrido.js' 
 import { BurbujasGestor } from './BurbujasGestor.js'
 
@@ -52,6 +52,7 @@ class MyScene extends THREE.Scene {
           personaje.position.copy(posicion);
           posicion.add(tangente);
           personaje.lookAt(posicion);
+          personaje.update()
         });
 
         that.camera.position.copy(that.personajes[0].position);
@@ -79,11 +80,11 @@ class MyScene extends THREE.Scene {
   addElementosEscena(){
     //Personajes
     this.jugadores.forEach(element => {
-      this.cat = new Cat();
-      this.cat.name = element.nombre;
+      this.parrot = new Parrot();
+      this.parrot.name = element.nombre;
       //this.cat.position.set(0, 0, 70)
-      this.add(this.cat);
-      this.personajes.push(this.cat);
+      this.add(this.parrot);
+      this.personajes.push(this.parrot);
     });
 
     //Mundo

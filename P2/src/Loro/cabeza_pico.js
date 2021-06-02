@@ -1,4 +1,4 @@
-import * as THREE from '../libs/three.module.js'
+import * as THREE from '../../libs/three.module.js'
 import { Cabeza } from './cabeza.js'
 import { Pico } from './pico.js'
 
