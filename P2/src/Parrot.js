@@ -26,7 +26,7 @@ class Parrot extends THREE.Object3D {
 
         this.loro = new Loro(skin);
         this.loro.rotation.z = Math.PI/2;
-        this.loro.rotation.x = Math.PI;
+        this.loro.rotation.x = Math.PI/1.2;
         this.loro.rotation.y = -Math.PI/2;
         this.loro.scale.set(0.5, 0.5, 0.5);
         this.add(this.loro);
@@ -35,7 +35,7 @@ class Parrot extends THREE.Object3D {
         this.add(this.camaraGatuna);
 
         let esfera_colisiones = new THREE.SphereBufferGeometry(this.radio_colision);
-        this.esfera_colisiones_mesh = new THREE.Mesh(esfera_colisiones, new THREE.MeshNormalMaterial());
+        this.esfera_colisiones_mesh = new THREE.Mesh(esfera_colisiones, new THREE.MeshPhongMaterial({transparent: true, opacity: 0}));
         this.add(this.esfera_colisiones_mesh);
     }
 
