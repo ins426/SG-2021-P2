@@ -3,6 +3,7 @@ import { Anillo1 } from './Anillo1.js'
 import { Anillo2 } from './Anillo2.js'
 import { Anillo3 } from './Anillo3.js'
 import { Anillo4 } from './Anillo4.js'
+import { Anillo5 } from './Anillo5.js'
 import { Meta } from './Meta.js'
 
 class Recorrido extends THREE.Object3D {
@@ -104,7 +105,7 @@ class Recorrido extends THREE.Object3D {
                     break;
 
                 case 5:
-                    var anillo = new Anillo4(radio5); 
+                    var anillo = new Anillo5(radio5); 
                     break;
             }
 

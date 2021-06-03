@@ -14,4 +14,4 @@ class Anillo5 extends Anillo {
 }
 
 
-export { Anillo4 }
+export { Anillo5 }

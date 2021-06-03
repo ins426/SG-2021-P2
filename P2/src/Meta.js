@@ -30,7 +30,7 @@ class Meta extends THREE.Object3D {
         const loader = new THREE.FontLoader();
 
         var that = this;
-        loader.load( '/fonts/noto_sans.json', function ( font ) {
+        loader.load( '../fonts/noto_sans.json', function ( font ) {
             var texto_geom = new THREE.TextBufferGeometry('META', {size: 0.8, height: 0.1, font: font, bevelEnabled: true,
             bevelThickness: 0.05, bevelSize: 0.05});
             texto_geom.translate(-1.6, that.altura/2 - 0.4, 0.1);

@@ -45,10 +45,12 @@ class Juego{
             this.escena.jugadores[0].setPuntuacion(0);
             document.getElementById("jugador1").style.display = "none";
             document.getElementById("jugador1-final").style.display = "none";
+            document.getElementById("jugador-ganador").style.display = "none";
         }
         else{
             this.escena.jugadores[0].setPuntuacion(0);
             this.escena.jugadores[1].setPuntuacion(0);
+            document.getElementById("jugador-ganador").style.display = "block";
         }
     }
 
