@@ -250,24 +250,25 @@ class MyScene extends THREE.Scene {
         clearInterval(this.jugadores[ind_jugador].temporizador.intervaloId);
         this.jugadores[ind_jugador].temporizador.setTiempo(0);
         this.jugadores[ind_jugador].temporizador_activado = false;
-        this.jugadores[ind_jugador].setVelocidad(0.1,0.1);
+        this.jugadores[ind_jugador].setVelocidad(1, 1);
       }
     }
   }
 
   aplicarMovimiento2d(ind_jugador){
+    let factor_reduccion = 8;
     let jugador = this.jugadores[ind_jugador];
     if(jugador.keysStatus['right'] && jugador.x_offset <= (this.width/2)-4)
-      jugador.x_offset += jugador.vx;
+      jugador.x_offset += (jugador.vx/factor_reduccion);
     
     if(jugador.keysStatus['left'] && jugador.x_offset >= (-this.width/2)+4)
-      jugador.x_offset -= jugador.vx
+      jugador.x_offset -= (jugador.vx/factor_reduccion);
     
     if(jugador.keysStatus['down'] && jugador.y_offset >= (-this.height/2)+2)
-      jugador.y_offset -= jugador.vy
+      jugador.y_offset -= (jugador.vy/factor_reduccion);
     
     if(jugador.keysStatus['up'] && jugador.y_offset <= (this.height/2)-3)
-      jugador.y_offset += jugador.vy
+      jugador.y_offset += (jugador.vy/factor_reduccion);
   }
 
   terminarPartida(){

@@ -3,8 +3,8 @@ import { Temporizador } from './Temporizador.js'
 class Jugador {
     constructor(nombre_jugador = "Default"){
         this.nombre = nombre_jugador;
-        this.vx = 0.1;
-        this.vy = 0.1;
+        this.vx = 1;
+        this.vy = 1;
         this.x_offset = 0;
         this.y_offset = 0;
         this.puntuacion = 0;
