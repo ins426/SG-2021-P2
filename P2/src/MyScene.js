@@ -166,8 +166,8 @@ class MyScene extends THREE.Scene {
     light.position.set(0, 10, 0);
     this.add(light);
 
-    //var helper = new THREE.HemisphereLightHelper(light, 2);
-    //light.add(helper);
+    // var helper = new THREE.HemisphereLightHelper(light, 2);
+    // light.add(helper);
     
     let sol = new THREE.DirectionalLight(0xffa70f, 0.8);
     sol.position.set(-60, 20, 200);
@@ -176,8 +176,8 @@ class MyScene extends THREE.Scene {
     this.add(sol.target);
     sol.castShadow = true;
 
-    //let sol_helper = new THREE.DirectionalLightHelper(sol, 10);
-    //sol.add(sol_helper);
+    // let sol_helper = new THREE.DirectionalLightHelper(sol, 10);
+    // sol.add(sol_helper);
 
     const textureLoader = new THREE.TextureLoader();
     const textureFlare = textureLoader.load( "../imgs/lensflare/6.png" );
