@@ -1,9 +1,7 @@
-import * as THREE from "../libs/three.module.js"
 import { Burbuja } from './Burbuja.js'
 
-class BurbujasGestor extends THREE.Object3D {
+class BurbujasGestor{
     constructor(textureCube){
-        super();
         this.textureCube = textureCube;
         this.buffer = [];
     }
