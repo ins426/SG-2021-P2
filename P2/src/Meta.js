@@ -5,6 +5,14 @@ class Meta extends THREE.Object3D {
         super();
         this.altura = 5;
 
+        // Base //
+        var texture_suelo = new THREE.TextureLoader().load('../imgs/cloud.jpg');
+        texture_suelo.repeat.set( 1, 0.5 );
+        var base_geom = new THREE.BoxBufferGeometry(10, 1, 4);
+        base_geom.translate(0, -this.altura/2, 0);
+        this.base_mesh = new THREE.Mesh(base_geom, new THREE.MeshPhongMaterial({map: texture_suelo}));
+        this.add(this.base_mesh);
+
         //  Patas //
         var pata_geom = new THREE.CylinderBufferGeometry(0.1, 0.1, this.altura, 32, 32);
         this.pataIzq_mesh = new THREE.Mesh(pata_geom, new THREE.MeshPhongMaterial({color: 0xffffff}));
