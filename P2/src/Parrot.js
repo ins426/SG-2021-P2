@@ -1,28 +1,10 @@
 import * as THREE from "../libs/three.module.js"
-import { MTLLoader } from "../libs/MTLLoader.js"
-import { OBJLoader } from "../libs/OBJLoader.js"
 import { Loro } from './Loro/loro.js'
 class Parrot extends THREE.Object3D {
     constructor(skin){
         super();
 
         this.radio_colision = 0.7;
-        // var that = this;
-        // var materialLoader = new MTLLoader();
-        // var objectloader = new OBJLoader();
-
-        // materialLoader.load('../models/Cat/12221_Cat_v1_l3.mtl',
-        //     function(materials) {
-        //         objectloader.setMaterials(materials);
-        //         objectloader.load ('../models/Cat/12221_Cat_v1_l3.obj',
-        //             function(object) {
-        //                 that.modelo = object;
-        //                 that.modelo.scale.set(0.05, 0.05, 0.05);
-        //                 that.modelo.rotateX(-Math.PI/2);
-        //                 that.modelo.receiveShadow = true;
-        //                 that.add (that.modelo);
-        //             }, null, null);
-        // });
 
         this.loro = new Loro(skin);
         this.loro.rotation.z = Math.PI/2;

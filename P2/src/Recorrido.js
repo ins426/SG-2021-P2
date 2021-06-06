@@ -42,7 +42,6 @@ class Recorrido extends THREE.Object3D {
 
         //Línea de meta
         this.meta = new Meta();
-        //this.meta.scale.set(5, 5,5);
         this.meta.position.copy(this.curva.getPointAt(0.01));   // Meta posicionada ligeramente por delante del inicio del juego
         this.add(this.meta);
     }

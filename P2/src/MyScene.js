@@ -3,7 +3,7 @@ import * as THREE from '../libs/three.module.js'
 import { GUI } from '../libs/dat.gui.module.js'
 import { TrackballControls } from '../libs/TrackballControls.js'
 import * as TWEEN from '../libs/tween.esm.js'
-import { Lensflare, LensflareElement } from './Lensflare.js'
+import { Lensflare, LensflareElement } from '../libs/Lensflare.js'
 
 // Clases de mi proyecto
 import { Parrot } from './Parrot.js'
@@ -87,7 +87,6 @@ class MyScene extends THREE.Scene {
     this.jugadores.forEach(element => {
       this.parrot = new Parrot(contador);
       this.parrot.name = element.nombre;
-      //this.cat.position.set(0, 0, 70)
       this.add(this.parrot);
       this.personajes.push(this.parrot);
       contador++;
