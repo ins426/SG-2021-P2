@@ -34,6 +34,7 @@ class MyScene extends THREE.Scene {
 
     //AUDIOS
     this.audio_anillo = document.getElementById("sonido-anillo");
+    this.audio_anillo.volume = 0.5;
     this.audio_menu = document.getElementById("sonido-menu");
     this.audio_partida = document.getElementById("sonido-partida");
     this.audio_menu.play();
