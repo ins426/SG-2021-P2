@@ -35,10 +35,10 @@ class Recorrido extends THREE.Object3D {
         var puntos = this.curva.getPoints( 600 ); 
         var geometria = new THREE.BufferGeometry().setFromPoints( puntos );
         
-        var camino = new THREE.Line(geometria, new THREE.LineBasicMaterial);
+        //var camino = new THREE.Line(geometria, new THREE.LineBasicMaterial);
 
         this.generarAnillos();
-        this.add(camino);
+        //this.add(camino);
 
         //Línea de meta
         this.meta = new Meta();
