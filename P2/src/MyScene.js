@@ -226,10 +226,12 @@ class MyScene extends THREE.Scene {
           document.getElementById("puntuacion" + ind_jugador).innerHTML = this.jugadores[ind_jugador].sumaPuntuacion(anillo_colisionado['anillo'].puntuacion);
         }
         else{
-          let bonus = anillo_colisionado['anillo'].bonificacion_velocidad;
-          this.jugadores[ind_jugador].setVelocidad(bonus,bonus);
-          this.jugadores[ind_jugador].temporizador.init();
-          this.jugadores[ind_jugador].temporizador_activado = true;
+          if (!this.jugadores[ind_jugador].temporizador_activado == true){
+            let bonus = anillo_colisionado['anillo'].bonificacion_velocidad;
+            this.jugadores[ind_jugador].setVelocidad(bonus,bonus);
+            this.jugadores[ind_jugador].temporizador.init();
+            this.jugadores[ind_jugador].temporizador_activado = true;
+          }
         }
         this.jugadores[ind_jugador].ultima_colision = anillo_colisionado['indice'];
       }
@@ -241,7 +243,8 @@ class MyScene extends THREE.Scene {
       let tiempo = this.jugadores[ind_jugador].temporizador.getTiempo()
 
       //Reseteo del temporizador y de la velocidad del jugador
-      if(tiempo >= 5){
+      if(tiempo >= 3){
+        console.log("FIN TIMER");
         clearInterval(this.jugadores[ind_jugador].temporizador.intervaloId);
         this.jugadores[ind_jugador].temporizador.setTiempo(0);
         this.jugadores[ind_jugador].temporizador_activado = false;

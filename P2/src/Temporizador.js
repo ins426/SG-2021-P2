@@ -12,6 +12,7 @@ class Temporizador {
     }
 
     init() {
+        this.tiempo = 0;
         this.intervaloId = setInterval(() => {
             this.tiempo++;
         },1000);
