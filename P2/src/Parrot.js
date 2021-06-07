@@ -13,8 +13,8 @@ class Parrot extends THREE.Object3D {
         this.loro.scale.set(0.5, 0.5, 0.5);
         this.add(this.loro);
 
-        this.camaraGatuna = this.crearCamara();
-        this.add(this.camaraGatuna);
+        this.camaraLoro = this.crearCamara();
+        this.add(this.camaraLoro);
 
         let esfera_colisiones = new THREE.SphereBufferGeometry(this.radio_colision);
         this.esfera_colisiones_mesh = new THREE.Mesh(esfera_colisiones, new THREE.MeshPhongMaterial({transparent: true, opacity: 0}));
