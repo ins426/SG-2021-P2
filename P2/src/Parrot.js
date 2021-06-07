@@ -43,8 +43,8 @@ class Parrot extends THREE.Object3D {
         return this.loro.position;
     }
 
-    update(){
-       this.loro.update(); 
+    update(delta){
+       this.loro.update(delta); 
     }
 }
 

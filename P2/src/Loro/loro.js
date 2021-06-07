@@ -22,23 +22,23 @@ class Loro extends THREE.Object3D {
         this.incremento_ala2 = 0.05
     }
 
-    update(){
+    update(delta){
 
         if(this.ala1.rotation.x <= -Math.PI/2){
-            this.incremento_ala1 = 0.05
+            this.incremento_ala1 = 5 * delta
         }
         else{
             if(this.ala1.rotation.x >= 0){
-                this.incremento_ala1 = -0.05
+                this.incremento_ala1 = -5 * delta
             }
         }
 
         if(this.ala2.rotation.x >= Math.PI/2){
-            this.incremento_ala2 = -0.05
+            this.incremento_ala2 = -5 * delta
         }
         else{
             if(this.ala2.rotation.x <= 0){
-                this.incremento_ala2 = 0.05
+                this.incremento_ala2 = 5 * delta
             }
         }
 

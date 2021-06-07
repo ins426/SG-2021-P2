@@ -30,6 +30,7 @@ class MyScene extends THREE.Scene {
 
     this.addElementosEscena();
     this.addAnimaciones();
+    this.old_timestamp = Date.now();
 
     //AUDIOS
     this.audio_anillo = document.getElementById("sonido-anillo");
@@ -54,7 +55,7 @@ class MyScene extends THREE.Scene {
           personaje.position.copy(posicion);
           posicion.add(tangente);
           personaje.lookAt(posicion);
-          personaje.update()
+          personaje.update(that.delta);
         });
       }
     ).onRepeat(function(){
@@ -311,6 +312,9 @@ class MyScene extends THREE.Scene {
   }
 
   update () {
+    this.current_timestamp = Date.now();
+    this.delta = (this.current_timestamp - this.old_timestamp)/1000;
+    this.old_timestamp = this.current_timestamp;
     this.cameraControl.update();
     this.renderer.render (this, this.getCamera());
 
@@ -334,7 +338,7 @@ class MyScene extends THREE.Scene {
     var that = this;
     this.burbujas.forEach(function(item){
 
-      item.animarBurbuja(0,0.1,0);
+      item.animarBurbuja(0, 10 * that.delta, 0);
 
       if(item.getPosicionLocal().y >= 60 ){
         that.remove(item);
