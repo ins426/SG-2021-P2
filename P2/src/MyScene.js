@@ -41,7 +41,7 @@ class MyScene extends THREE.Scene {
   }
 
   addAnimaciones(){
-    //  ******* Animación gato/seguimiento cámara ************
+    //  ******* Animación loros/seguimiento cámara ************
     this.t_ini = {t: 0};
     this.t_fin = {t: 1};
 
@@ -66,19 +66,6 @@ class MyScene extends THREE.Scene {
       that.vueltas_recorridas++;
       document.getElementById("vuelta").innerHTML = that.vueltas_recorridas;
     });
-
-    //  ******* Animación burbujas(zigzag, ascenso y opacidad) ************
-    this.burbujas_gestor = new BurbujasGestor(this.texture);
-
-    var n_burbujas = 200;
-    this.burbujas = [];
-    for(var i = 0; i < n_burbujas;++i){
-      this.burbujas.push(this.burbujas_gestor.getBurbuja());
-    }
-
-    this.burbujas.forEach(function(item){
-      that.add(item);
-    })
   }
 
   addElementosEscena(){
@@ -107,6 +94,20 @@ class MyScene extends THREE.Scene {
     //Recorrido
     this.recorrido = new Recorrido();
     this.add(this.recorrido);
+
+    //  ******* Animación burbujas(zigzag, ascenso y opacidad) ************
+    this.burbujas_gestor = new BurbujasGestor(this.texture);
+
+    var n_burbujas = 200;
+    this.burbujas = [];
+    for(var i = 0; i < n_burbujas;++i){
+      this.burbujas.push(this.burbujas_gestor.getBurbuja());
+    }
+    
+    var that = this;
+    this.burbujas.forEach(function(item){
+      that.add(item);
+    })
 
     //Desplazamientos máximos y mínimo
     const vFOV = (this.camaraJuego.fov * Math.PI) / 180;
