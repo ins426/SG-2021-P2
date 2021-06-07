@@ -4,7 +4,8 @@ class Burbuja extends THREE.Object3D {
     constructor(textureCube){
         super();
 
-        var material = new THREE.MeshBasicMaterial({color: 0xffffff, envMap: textureCube, transparent: true});
+        var material = new THREE.MeshLambertMaterial({color: 0xffffff, envMap: textureCube, transparent: true,
+            emissive: 0xffffff, emissiveIntensity: 0.8});
         material.envMap.mapping = THREE.CubeRefractionMapping;
         material.refractionRatio = 0.85;
 
