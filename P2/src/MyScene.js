@@ -23,8 +23,6 @@ class MyScene extends THREE.Scene {
 
     this.record_puntuacion = 0
 
-    this.materiales = {0: 0x00FF00, 1:0xCF0000}
-
     this.createLights ();
     this.createCamera ();
     this.crearCamaraMenu();
@@ -58,9 +56,6 @@ class MyScene extends THREE.Scene {
           personaje.lookAt(posicion);
           personaje.update()
         });
-
-        that.camera.position.copy(that.personajes[0].position);
-        that.camera.lookAt(posicion);
       }
     ).onRepeat(function(){
       that.vueltas_recorridas++;
@@ -95,7 +90,7 @@ class MyScene extends THREE.Scene {
     this.recorrido = new Recorrido();
     this.add(this.recorrido);
 
-    //  ******* Animación burbujas(zigzag, ascenso y opacidad) ************
+    //  ******* Generación de burbujas ************
     this.burbujas_gestor = new BurbujasGestor(this.texture);
 
     var n_burbujas = 200;
@@ -111,11 +106,11 @@ class MyScene extends THREE.Scene {
 
     //Desplazamientos máximos y mínimo
     const vFOV = (this.camaraJuego.fov * Math.PI) / 180;
-    const height = 2 * Math.tan(vFOV / 2) * Math.abs(this.camaraJuego.position.z);
+    const height = Math.tan(vFOV / 2) * Math.abs(this.camaraJuego.position.z);
     const width = height * this.camaraJuego.aspect;
 
-    this.width = width/2; //Ancho de la pantalla en coordenadas de mundo
-    this.height = height/2; //Altura de la pantalla en coordenadas de mundo
+    this.width = width; //Ancho de la pantalla en coordenadas de mundo
+    this.height = height; //Altura de la pantalla en coordenadas de mundo
   }
 
   crearCamaraMenu(){
@@ -257,17 +252,20 @@ class MyScene extends THREE.Scene {
 
   aplicarMovimiento2d(ind_jugador){
     let factor_reduccion = 8;
+    let limite_x = 5;
+    let limite_y = 3;
+
     let jugador = this.jugadores[ind_jugador];
-    if(jugador.keysStatus['right'] && jugador.x_offset <= (this.width/2)-4)
+    if(jugador.keysStatus['right'] && jugador.x_offset <= (this.width/2)-limite_x)
       jugador.x_offset += (jugador.vx/factor_reduccion);
     
-    if(jugador.keysStatus['left'] && jugador.x_offset >= (-this.width/2)+4)
+    if(jugador.keysStatus['left'] && jugador.x_offset >= (-this.width/2)+limite_x)
       jugador.x_offset -= (jugador.vx/factor_reduccion);
     
-    if(jugador.keysStatus['down'] && jugador.y_offset >= (-this.height/2)+2)
+    if(jugador.keysStatus['down'] && jugador.y_offset >= (-this.height/2)+limite_y)
       jugador.y_offset -= (jugador.vy/factor_reduccion);
     
-    if(jugador.keysStatus['up'] && jugador.y_offset <= (this.height/2)-3)
+    if(jugador.keysStatus['up'] && jugador.y_offset <= (this.height/2)-limite_y)
       jugador.y_offset += (jugador.vy/factor_reduccion);
   }
 
@@ -319,9 +317,6 @@ class MyScene extends THREE.Scene {
         this.comprobarTemporizador(index);
         this.aplicarMovimiento2d(index);
       });
-
-      this.animacion.start();
-      this.camaraJuego = this.personajes[0].camara;
 
       if(this.vueltas_recorridas == this.n_vueltas)
         this.terminarPartida();

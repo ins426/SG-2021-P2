@@ -8,7 +8,7 @@ class Burbuja extends THREE.Object3D {
         material.envMap.mapping = THREE.CubeRefractionMapping;
         material.refractionRatio = 0.85;
 
-        this.radio = Math.floor(Math.random()*(10-3+1)+3)
+        this.factor_escalado = Math.floor(Math.random()*(10-3+1)+3)
         this.burbuja = new THREE.Mesh(
             new THREE.SphereBufferGeometry(0.1,32,32), material);
 
@@ -16,7 +16,7 @@ class Burbuja extends THREE.Object3D {
                             Math.floor(Math.random()*(50-5+1)-5),
                             Math.floor(Math.random()*(80-(-80)+1)-80));
 
-        this.burbuja.scale.set(this.radio, this.radio, this.radio);
+        this.burbuja.scale.set(this.factor_escalado, this.factor_escalado, this.factor_escalado);
         this.add(this.burbuja)
     }
 
@@ -38,10 +38,6 @@ class Burbuja extends THREE.Object3D {
         this.burbuja.position.x = x
         this.burbuja.position.y = y
         this.burbuja.position.z = z
-    }
-
-    getRadio(){
-        return this.radio;
     }
 }
 export { Burbuja }

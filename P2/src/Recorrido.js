@@ -112,8 +112,7 @@ class Recorrido extends THREE.Object3D {
         var i;
         for (i = 0; i < this.anillos.length && res['indice'] == -1; ++i){
             
-            //  Dividimos el radio del anillo para quedarnos con el radio de la esfera de dentro
-            if(this.anillos[i].position.distanceTo(posicionB) <= (radioB + (this.anillos[i].radio)/1.5)){
+            if(this.anillos[i].position.distanceTo(posicionB) <= (radioB + this.anillos[i].radio_colision)){
                 res['indice'] = i
                 res['anillo'] = this.anillos[i]
             }
