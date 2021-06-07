@@ -230,6 +230,21 @@ class MyScene extends THREE.Scene {
         else{
           if (!this.jugadores[ind_jugador].temporizador_activado == true){
             let bonus = anillo_colisionado['anillo'].bonificacion_velocidad;
+            var tipo = bonus > 1 ? "acelera" : "decelera";
+            
+            this.personajes[ind_jugador].traverseVisible(function(nodo){
+              if (nodo.material){               // Si el nodo posee un material
+                var color = nodo.material.color;
+                if(color.getHexString() == '00ff00' || color.getHexString() == 'cf0000'){   //  Si es verde o rojizo
+                  if (tipo == "acelera")
+                    nodo.material = new THREE.MeshLambertMaterial({color: color.getHex(), emissive: 0xffffff, emissiveIntensity: 0.3}); //  Pon brillo
+
+                  else
+                    nodo.material = new THREE.MeshLambertMaterial({color: color.getHex(), transparent: true, opacity: 0.6});            //  Ponlo transparente
+                }
+              }
+            });
+
             this.jugadores[ind_jugador].setVelocidad(bonus,bonus);
             this.jugadores[ind_jugador].temporizador.init();
             this.jugadores[ind_jugador].temporizador_activado = true;
@@ -246,7 +261,16 @@ class MyScene extends THREE.Scene {
 
       //Reseteo del temporizador y de la velocidad del jugador
       if(tiempo >= 3){
-        console.log("FIN TIMER");
+
+        // Restaura el material original
+        this.personajes[ind_jugador].traverseVisible(function(nodo){
+          if (nodo.material){
+            var color = nodo.material.color;
+            if(color.getHexString() == '00ff00' || color.getHexString() == 'cf0000')
+              nodo.material = new THREE.MeshPhongMaterial({color: color.getHex()});
+          }
+        });
+
         clearInterval(this.jugadores[ind_jugador].temporizador.intervaloId);
         this.jugadores[ind_jugador].temporizador.setTiempo(0);
         this.jugadores[ind_jugador].temporizador_activado = false;
