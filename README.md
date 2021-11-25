@@ -1,5 +1,5 @@
 # Práctica 2. 
-## Diseño, implementación y entrega de un sistema gráfico de libre elección
+## Diseño e implementación de un sistema gráfico de libre elección
 
 Curso: 2020/21
 
